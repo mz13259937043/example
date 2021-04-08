@@ -1,0 +1,335 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+}
+/*滚动条整体样式*/
+/*高宽分别对应横竖滚动条的尺寸*/
+/* body::-webkit-scrollbar {
+   width: 1px; 
+   height: 4px; 
+   scrollbar-arrow-color: red; 
+} */
+div {
+  box-sizing: border-box;
+}
+/* 分页栏设置 */
+.el-pagination {
+  margin-top: 6px !important;
+  padding: 2px 0px;
+}
+.el-pagination .btn-prev {
+  margin: 0px 5px !important;
+  /* margin-right: 5px !important; */
+}
+
+/* 全局底部带线条的头部 */
+.global-title {
+  display: flex;
+  margin: 20px 0;
+  padding: 0 0 10px 0px;
+  border-bottom: 1px solid;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+/* ::-webkit-scrollbar {
+  width: 5px;
+} */
+
+/*定义滚动条轨道 内阴影+圆角*/
+/* ::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+} */
+
+/*定义滑块 内阴影+圆角*/
+/* ::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.1);
+} */
+.el-breadcrumb-item {
+  color: #fcc6c6 !important;
+}
+
+.el-breadcrumb__inner {
+  color: #ffffff;
+}
+.el-breadcrumb__item:last-child .el-breadcrumb__inner {
+  color: #ffffff;
+}
+
+.el-breadcrumb__inner.is-link {
+  color: #ffffff;
+}
+
+/* 全局前面带一个竖线的提示信息 */
+.global-sxtitle {
+  width: 100%;
+  height: 40px;
+  color: #000;
+  font-size: 16px;
+  position: relative;
+  line-height: 40px;
+  padding-left: 20px;
+  margin-bottom: 20px;
+  background: #efefea42;
+}
+.global-sxtitle::after {
+  content: "";
+  width: 5px;
+  height: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #4c8bfd;
+}
+/*警告红竖线*/
+.global-sxtitle-danger {
+  width: 100%;
+  height: 40px;
+  color: #000;
+  font-size: 16px;
+  position: relative;
+  line-height: 40px;
+  padding-left: 20px;
+  margin-bottom: 20px;
+  background: #f0f0ee;
+}
+
+.global-sxtitle-danger::after {
+  content: "";
+  width: 5px;
+  height: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ec552e;
+}
+
+/* 全局在右下方按钮 */
+.global-right-btn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.global-right-btn button {
+  margin: 0 10px;
+}
+
+/* 全局底部带线条的头部 */
+.global-title {
+  display: flex;
+  margin: 20px 0;
+  padding: 0 0 10px 0px;
+  border-bottom: 1px solid;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.nav-title {
+  opacity: 1;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  color: #000;
+  margin-bottom: 20px;
+  background: #fafafa;
+  border: 1px solid #e6e6e6;
+  padding: 20px 0 16px 381px;
+}
+
+/* ::-webkit-scrollbar {
+  width: 5px;
+} */
+
+/*定义滚动条轨道 内阴影+圆角*/
+/* ::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+} */
+
+/*定义滑块 内阴影+圆角*/
+/* ::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.1);
+} */
+.el-breadcrumb-item {
+  color: #fcc6c6 !important;
+}
+
+.el-breadcrumb__inner {
+  color: #000;
+}
+.el-breadcrumb__item:last-child .el-breadcrumb__inner {
+  color: #000;
+}
+
+.el-breadcrumb__inner.is-link {
+  color: #000;
+}
+
+/* 全局前面带一个竖线的提示信息(无间隔) */
+.global-sxtitle {
+  width: 100%;
+  height: 40px;
+  color: #000;
+  font-size: 14px;
+  position: relative;
+  line-height: 40px;
+  padding-left: 20px;
+  margin-bottom: 20px;
+  background: #f0f0ee;
+}
+
+.global-sxtitle::after {
+  content: "";
+  width: 5px;
+  height: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #4c8bfd;
+}
+
+/* 全局在右下方按钮 */
+.global-right-btn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.global-right-btn button {
+  margin: 10px 10px;
+}
+
+/* 全局前面带一个蓝色的竖线标题(有间隔) */
+
+.global-flag {
+  margin-bottom: 20px;
+  width: 100%;
+  height: 14px;
+  display: flex;
+  padding-right: 0;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 14px;
+  position: relative;
+  padding-left: 10px;
+  align-items: center;
+  color: #0091ff;
+  /* color: rgba(0, 0, 0, 0.85); */
+  justify-content: space-between;
+}
+
+.global-flag::after {
+  content: "";
+  width: 4px;
+  height: 17px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #0091ff;
+}
+
+/* 全局两侧对称 */
+.global-dc {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* select全局宽度100% */
+.el-select,
+.el-input {
+  width: 100% !important;
+}
+.el-pagination span:not([class*="suffix"]) {
+  width: 100px !important;
+}
+.el-pagination__editor.el-input {
+  width: 50px !important;
+}
+/* 修改禁用时默认显示样式 */
+.el-input.is-disabled .el-input__inner {
+  color: #606266;
+}
+
+.disable {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 全局出现手的状态 */
+.select-hand {
+  cursor: pointer;
+}
+
+/* 全局表格操作样式 */
+.operation-style span {
+  display: inline;
+  margin: 0 5px;
+}
+
+/* 全局复选框样式 */
+.el-checkbox {
+  margin-right: 10;
+}
+
+.el-checkbox-group .el-checkbox:nth-child(2) {
+  float: right;
+  margin-right: 0;
+}
+.el-pagination__jump .el-input__inner {
+  width: 50% !important;
+}
+.el-textarea .el-textarea__inner {
+  content: "微软雅黑";
+  font-family: "Microsoft YaHei";
+  font-size: 16px;
+  color: #606266;
+}
+.el-pagination__jump  {
+  margin-left: 0px !important;
+}
+.el-pagination__sizes {
+  width: 8%;
+  margin-right: 20px;
+  margin-left: 0px;
+}
+
+.el-table thead {
+  color: #ffffff;
+}
+
+/* 通用按钮样式 */
+/* 正常按钮 */
+.btn {
+  color: #66b1ff;
+  border: 1px solid #66b1ff;
+}
+.btn:hover {
+  color: #fff;
+  border: 1px solid #66b1ff;
+  background: #006cff;
+}
+/* 警告按钮 */
+.btn-danger {
+  color: hsl(0, 100%, 49%);
+  border: 1px solid hsl(0, 100%, 49%);
+}
+.btn-danger:hover {
+  color: #fff;
+  border: 1px solid #66b1ff;
+  background: hsl(0, 100%, 49%);
+}
+a {
+  text-decoration: none;
+}

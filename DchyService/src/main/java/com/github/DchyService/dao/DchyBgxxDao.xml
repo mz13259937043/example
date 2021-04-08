@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyBgxxDao">
+
+	<resultMap type="com.github.DchyService.entity.DchyBgxx"
+		id="DchyBgxxMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="bgcjsj" column="BGCJSJ" jdbcType="TIMESTAMP" />
+		<result property="bgjssj" column="BGJSSJ" jdbcType="TIMESTAMP" />
+		<result property="bgstate" column="BGSTATE" jdbcType="VARCHAR" />
+		<result property="fjzd1" column="FJZD1" jdbcType="VARCHAR" />
+		<result property="fjzd2" column="FJZD2" jdbcType="VARCHAR" />
+		<result property="bgdid" column="BGDID" jdbcType="VARCHAR" />
+		<result property="bgyy" column="BGYY" jdbcType="VARCHAR" />
+		<result property="bgjg" column="BGJG" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--查询单个 -->
+	<select id="queryById" resultMap="DchyBgxxMap">
+		select
+		ID, BGCJSJ, BGJSSJ,
+		BGSTATE, FJZD1, FJZD2, BGDID, BGYY, BGJG
+		from DCHY_BGXX
+		where ID = #{id}
+	</select>
+
+	<!--查询单个 -->
+	<select id="queryByDid" resultMap="DchyBgxxMap">
+		select
+		ID, BGCJSJ, BGJSSJ,
+		BGSTATE, FJZD1, FJZD2, BGDID, BGYY, BGJG
+		from DCHY_BGXX
+		where BGID =
+		#{bgid}
+	</select>
+
+	<!--查询单个 -->
+	<select id="queryByDidAndState" resultMap="DchyBgxxMap">
+		select
+		ID, BGCJSJ,
+		BGJSSJ, BGSTATE, FJZD1, FJZD2, BGDID, BGYY, BGJG
+		from DCHY_BGXX
+		where
+		BGDID = #{bgdid} and BGSTATE =#{bgstate}
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllByLimit" resultMap="DchyBgxxMap">
+		select
+		ID, BGCJSJ, BGJSSJ,
+		BGSTATE, FJZD1, FJZD2, BGDID, BGYY, BGJG
+		from DCHY_BGXX where rownum
+		&lt;=#{limit} and rownum &gt;=#{offset}
+	</select>
+
+	<!--通过实体作为筛选条件查询 -->
+	<select id="queryAll" resultMap="DchyBgxxMap">
+		select
+		ID, BGCJSJ, BGJSSJ, BGSTATE, FJZD1, FJZD2, BGDID, BGYY, BGJG
+		from DCHY_BGXX
+		<where>
+			<if test="id != null and id != ''">
+				and ID = #{id}
+			</if>
+			<if test="bgcjsj != null">
+				and BGCJSJ = #{bgcjsj}
+			</if>
+			<if test="bgjssj != null">
+				and BGJSSJ = #{bgjssj}
+			</if>
+			<if test="bgstate != null and bgstate != ''">
+				and BGSTATE = #{bgstate}
+			</if>
+			<if test="fjzd1 != null and fjzd1 != ''">
+				and FJZD1 = #{fjzd1}
+			</if>
+			<if test="fjzd2 != null and fjzd2 != ''">
+				and FJZD2 = #{fjzd2}
+			</if>
+			<if test="bgdid != null and bgdid != ''">
+				and BGDID = #{bgdid}
+			</if>
+			<if test="bgyy != null and bgyy != ''">
+				and BGYY = #{bgyy}
+			</if>
+			<if test="bgjg != null and bgjg != ''">
+				and BGJG = #{bgjg}
+			</if>
+		</where>
+	</select>
+
+	<!--新增所有列 -->
+	<insert id="insert"
+		parameterType="com.github.DchyService.entity.DchyBgxx">
+		<selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into DCHY_BGXX
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">ID,</if>
+			<if test="bgcjsj !=null">BGCJSJ,</if>
+			<if test="bgjssj !=null">BGJSSJ,</if>
+			<if test="bgdid !=null and bgdid !=''">BGDID,</if>
+			<if test="bgstate !=null and bgstate !=''">BGSTATE,</if>
+			<if test="bgyy !=null and bgyy !=''">BGYY,</if>
+			<if test="bgjg !=null and bgjg !=''">BGJG,</if>
+			<if test="fjzd1 !=null and fjzd1 !=''">FJZD1,</if>
+			<if test="fjzd2 !=null and fjzd2 !=''">FJZD2,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">#{id},</if>
+			<if test="bgcjsj !=null">#{bgcjsj,jdbcType=TIMESTAMP},</if>
+			<if test="bgjssj !=null">#{bgjssj,jdbcType=TIMESTAMP},</if>
+			<if test="bgdid !=null and bgdid !=''">#{bgdid},</if>
+			<if test="bgstate !=null and bgstate !=''">#{bgstate},</if>
+			<if test="bgyy !=null and bgyy !=''">#{bgyy},</if>
+			<if test="bgjg !=null and bgjg !=''">#{bgjg},</if>
+			<if test="fjzd1 !=null and fjzd1 !=''">#{fjzd1},</if>
+			<if test="fjzd2 !=null and fjzd2 !=''">#{fjzd2},</if>
+		</trim>
+	</insert>
+
+	<!--通过主键修改数据 -->
+	<update id="update">
+		update DCHY_BGXX
+		<set>
+			<if test="bgcjsj != null">
+				BGCJSJ = #{bgcjsj},
+			</if>
+			<if test="bgjssj != null">
+				BGJSSJ = #{bgjssj},
+			</if>
+			<if test="bgstate != null and bgstate != ''">
+				BGSTATE = #{bgstate},
+			</if>
+			<if test="fjzd1 != null and fjzd1 != ''">
+				FJZD1 = #{fjzd1},
+			</if>
+			<if test="fjzd2 != null and fjzd2 != ''">
+				FJZD2 = #{fjzd2},
+			</if>
+			<if test="bgdid != null and bgdid != ''">
+				BGDID = #{bgdid},
+			</if>
+			<if test="bgyy != null and bgyy != ''">
+				BGYY = #{bgyy},
+			</if>
+			<if test="bgjg != null and bgjg != ''">
+				BGJG = #{bgjg},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+</mapper>

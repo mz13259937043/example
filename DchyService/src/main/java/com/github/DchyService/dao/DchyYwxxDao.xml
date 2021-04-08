@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyYwxxDao">
+
+    <resultMap type="com.github.DchyService.entity.DchyYwxx" id="DchyYwxxMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="pid" column="PID" jdbcType="VARCHAR"/>
+        <result property="chqssj" column="CHQSSJ" jdbcType="TIMESTAMP"/>
+        <result property="chwcsj" column="CHWCSJ" jdbcType="TIMESTAMP"/>
+        <result property="chssbcsm" column="CHSSBCSM" jdbcType="VARCHAR"/>
+        <result property="ssfj" column="SSFJ" jdbcType="VARCHAR"/>
+        <result property="cghjfj" column="CGHJFJ" jdbcType="VARCHAR"/>
+        <result property="chcgfzr" column="CHCGFZR" jdbcType="VARCHAR"/>
+        <result property="fzrdh" column="FZRDH" jdbcType="VARCHAR"/>
+        <result property="cghjbcsm" column="CGHJBCSM" jdbcType="VARCHAR"/>
+        <result property="cgqrfj" column="CGQRFJ" jdbcType="VARCHAR"/>
+        <result property="cgqrbcsm" column="CGQRBCSM" jdbcType="VARCHAR"/>
+        <result property="cgysfj" column="CGYSFJ" jdbcType="VARCHAR"/>
+        <result property="cgysbcsm" column="CGYSBCSM" jdbcType="VARCHAR"/>
+        <result property="cgshfj" column="CGSHFJ" jdbcType="VARCHAR"/>
+        <result property="cgshbcsm" column="CGSHBCSM" jdbcType="VARCHAR"/>
+        <result property="yl1" column="YL1" jdbcType="VARCHAR"/>
+        <result property="yl2" column="YL2" jdbcType="VARCHAR"/>
+        <result property="yl3" column="YL3" jdbcType="VARCHAR"/>
+        <result property="ywmc" column="YWMC" jdbcType="VARCHAR"/>
+        <result property="cjsj" column="CJSJ" jdbcType="TIMESTAMP"/>
+        <result property="zt" column="ZT" jdbcType="VARCHAR"/>
+        <result property="fzrsfz" column="FZRSFZ" jdbcType="VARCHAR"/>
+        <result property="zjbg" column="ZJBG" jdbcType="VARCHAR"/>
+        <result property="wqryy" column="WQRYY" jdbcType="VARCHAR"/>
+        <result property="cgqrsj" column="CGQRSJ" jdbcType="TIMESTAMP"/>
+        <result property="cgsfsh" column="CGSFSH" jdbcType="VARCHAR"/>
+        <result property="cgshqr" column="CGSHQR" jdbcType="VARCHAR"/>
+        <result property="wgsyy" column="WGSYY" jdbcType="VARCHAR"/>
+        <result property="chshsj" column="CHSHSJ" jdbcType="TIMESTAMP"/>
+        <result property="cghjsj" column="CGHJSJ" jdbcType="TIMESTAMP"/>
+        <result property="cgyszt" column="CGYSZT" jdbcType="VARCHAR"/>
+        <result property="cghjzt" column="CGHJZT" jdbcType="VARCHAR"/>
+        <result property="djh" column="DJH" jdbcType="VARCHAR"/>
+        <result property="bdcdyh" column="BDCDYH" jdbcType="VARCHAR"/>
+        <result property="cgshr" column="CGSHR" jdbcType="VARCHAR"/>
+        <result property="cgshrid" column="CGSHRID" jdbcType="VARCHAR"/>
+        <result property="cgshyj" column="CGSHYJ" jdbcType="VARCHAR"/>
+        <result property="cgbh" column="CGBH" jdbcType="VARCHAR"/>
+        <result property="cgyssj" column="CGYSSJ" jdbcType="TIMESTAMP"/>
+        <result property="cgshjlsid" column="CGSHJLSID" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="findById" resultMap="DchyYwxxMap">
+        select
+        ID, PID, CHQSSJ, CHWCSJ, CHSSBCSM, SSFJ, CGHJFJ, CHCGFZR, FZRDH, CGHJBCSM, CGQRFJ, CGQRBCSM, CGYSFJ, CGYSBCSM,
+        CGSHFJ, CGSHBCSM, YL1, YL2,YL3, YWMC, CJSJ, ZT, FZRSFZ, ZJBG, WQRYY, CGQRSJ, CGSFSH, CGSHQR, WGSYY, CHSHSJ,CGHJSJ,
+        CGYSZT,CGHJZT,DJH,BDCDYH,CGSHR,CGSHRID,CGSHYJ,CGBH,CGYSSJ,CGSHJLSID
+        from DCHY_YWXX where ID = #{id}
+    </select>
+    <select id="getNoticeMsgByYwxxid" resultType="java.util.HashMap">
+        select t.cgsfsh,t.cgbh,t.cgshjlsid,t.wqryy,t.cgshyj,t.chshsj,
+        a.xmmc,a.xmdz,a.wtdw,
+        b.chdwid,
+        c.unit_name as chdwmc from
+        DCHY_YWXX t,DCHY_FBXX a,Dchy_Sqyx b,Dchy_Company c
+        where t.pid=a.id and a.id=b.pid and c.id=b.chdwid and t.id=#{ywxxid}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="findList" resultMap="DchyYwxxMap">
+        select
+        ID, PID, CHQSSJ, CHWCSJ, CHSSBCSM, SSFJ, CGHJFJ, CHCGFZR, FZRDH, CGHJBCSM, CGQRFJ, CGQRBCSM, CGYSFJ, CGYSBCSM,
+        CGSHFJ, CGSHBCSM, YL1, YL2,YL3, YWMC, CJSJ, ZT, FZRSFZ, ZJBG, WQRYY, CGQRSJ, CGSFSH, CGSHQR, WGSYY,
+        CHSHSJ,CGHJSJ,CGYSZT,CGHJZT,DJH,BDCDYH,CGSHR,CGSHRID,CGSHYJ,CGBH,CGYSSJ,CGSHJLSID
+        from DCHY_YWXX
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="pid != null and pid != ''">
+                and PID = #{pid}
+            </if>
+            <if test="chqssj != null">
+                and CHQSSJ = #{chqssj}
+            </if>
+            <if test="chwcsj != null">
+                and CHWCSJ = #{chwcsj}
+            </if>
+            <if test="chssbcsm != null and chssbcsm != ''">
+                and CHSSBCSM = #{chssbcsm}
+            </if>
+            <if test="ssfj != null and ssfj != ''">
+                and SSFJ = #{ssfj}
+            </if>
+            <if test="cghjfj != null and cghjfj != ''">
+                and CGHJFJ = #{cghjfj}
+            </if>
+            <if test="chcgfzr != null and chcgfzr != ''">
+                and CHCGFZR = #{chcgfzr}
+            </if>
+            <if test="fzrdh != null and fzrdh != ''">
+                and FZRDH = #{fzrdh}
+            </if>
+            <if test="cghjbcsm != null and cghjbcsm != ''">
+                and CGHJBCSM = #{cghjbcsm}
+            </if>
+            <if test="cgqrfj != null and cgqrfj != ''">
+                and CGQRFJ = #{cgqrfj}
+            </if>
+            <if test="cgqrbcsm != null and cgqrbcsm != ''">
+                and CGQRBCSM = #{cgqrbcsm}
+            </if>
+            <if test="cgysfj != null and cgysfj != ''">
+                and CGYSFJ = #{cgysfj}
+            </if>
+            <if test="cgysbcsm != null and cgysbcsm != ''">
+                and CGYSBCSM = #{cgysbcsm}
+            </if>
+            <if test="cgshfj != null and cgshfj != ''">
+                and CGSHFJ = #{cgshfj}
+            </if>
+            <if test="cgshbcsm != null and cgshbcsm != ''">
+                and CGSHBCSM = #{cgshbcsm}
+            </if>
+            <if test="yl1 != null and yl1 != ''">
+                and YL1 = #{yl1}
+            </if>
+            <if test="yl2 != null and yl2 != ''">
+                and YL2 = #{yl2}
+            </if>
+            <if test="yl3 != null and yl3 != ''">
+                and YL3 = #{yl3}
+            </if>
+            <if test="ywmc != null and ywmc != ''">
+                and YWMC = #{ywmc}
+            </if>
+            <if test="cjsj != null">
+                and CJSJ = #{cjsj}
+            </if>
+            <if test="zt != null and zt != ''">
+                and ZT = #{zt}
+            </if>
+            <if test="fzrsfz != null and fzrsfz != ''">
+                and FZRSFZ = #{fzrsfz}
+            </if>
+            <if test="zjbg != null and zjbg != ''">
+                and ZJBG = #{zjbg}
+            </if>
+            <if test="wqryy != null and wqryy != ''">
+                and WQRYY = #{wqryy}
+            </if>
+            <if test="cgqrsj != null">
+                and CGQRSJ = #{cgqrsj}
+            </if>
+            <if test="cgsfsh != null and cgsfsh != ''">
+                and CGSFSH = #{cgsfsh}
+            </if>
+            <if test="cgshqr != null and cgshqr != ''">
+                and CGSHQR = #{cgshqr}
+            </if>
+            <if test="wgsyy != null and wgsyy != ''">
+                and WGSYY = #{wgsyy}
+            </if>
+            <if test="chshsj != null">
+                and CHSHSJ = #{chshsj}
+            </if>
+            <if test="cghjsj != null">
+                and CGHJSJ = #{cghjsj}
+            </if>
+            <if test="cgyszt != null and cgyszt != ''">
+                and CGYSZT = #{cgyszt}
+            </if>
+            <if test="cghjzt != null and cghjzt != ''">
+                and CGHJZT = #{cghjzt}
+            </if>
+            <if test="djh != null and djh != ''">
+                and DJH = #{djh}
+            </if>
+            <if test="bdcdyh != null and bdcdyh != ''">
+                and BDCDYH = #{bdcdyh}
+            </if>
+            <if test="cgshr != null and cgshr != ''">
+                and CGSHR = #{cgshr},
+            </if>
+            <if test="cgshrid != null and cgshrid != ''">
+                and cgshrid = #{cgshrid},
+            </if>
+            <if test="cgshyj != null and cgshyj != ''">
+                and cgshyj = #{cgshyj},
+            </if>
+            <if test="cgbh != null and cgbh != ''">
+                and cgbh = #{cgbh},
+            </if>
+            <if test="cgyssj != null ">
+                and cgyssj = #{cgyssj},
+            </if>
+            <if test="searchStr != null and searchStr != ''">
+                and (ywmc like '%${searchStr}%'
+                or CHJD like '%${searchStr}%')
+            </if>
+        </where>
+    </select>
+    <select id="getByPid" resultMap="DchyYwxxMap">
+        select * from dchy_ywxx where pid=#{pid}
+    </select>
+
+
+
+    <!--新增所有列-->
+    <insert id="insert">
+        insert into DCHY_YWXX
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select sys_guid() from dual
+        </selectKey>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                ID,
+            </if>
+            <if test="pid != null and pid != ''">
+                PID,
+            </if>
+            <if test="chqssj != null">
+                CHQSSJ,
+            </if>
+            <if test="chwcsj != null">
+                CHWCSJ,
+            </if>
+            <if test="chssbcsm != null and chssbcsm != ''">
+                CHSSBCSM,
+            </if>
+            <if test="ssfj != null and ssfj != ''">
+                SSFJ,
+            </if>
+            <if test="cghjfj != null and cghjfj != ''">
+                CGHJFJ,
+            </if>
+            <if test="chcgfzr != null and chcgfzr != ''">
+                CHCGFZR,
+            </if>
+            <if test="fzrdh != null and fzrdh != ''">
+                FZRDH,
+            </if>
+            <if test="cghjbcsm != null and cghjbcsm != ''">
+                CGHJBCSM,
+            </if>
+            <if test="cgqrfj != null and cgqrfj != ''">
+                CGQRFJ,
+            </if>
+            <if test="cgqrbcsm != null and cgqrbcsm != ''">
+                CGQRBCSM,
+            </if>
+            <if test="cgysfj != null and cgysfj != ''">
+                CGYSFJ,
+            </if>
+            <if test="cgysbcsm != null and cgysbcsm != ''">
+                CGYSBCSM,
+            </if>
+            <if test="cgshfj != null and cgshfj != ''">
+                CGSHFJ,
+            </if>
+            <if test="cgshbcsm != null and cgshbcsm != ''">
+                CGSHBCSM,
+            </if>
+            <if test="yl1 != null and yl1 != ''">
+                YL1,
+            </if>
+            <if test="yl2 != null and yl2 != ''">
+                YL2,
+            </if>
+            <if test="yl3 != null and yl3 != ''">
+                YL3,
+            </if>
+            <if test="ywmc != null and ywmc != ''">
+                YWMC,
+            </if>
+            <if test="cjsj != null">
+                CJSJ,
+            </if>
+            <if test="zt != null and zt != ''">
+                ZT,
+            </if>
+            <if test="fzrsfz != null and fzrsfz != ''">
+                FZRSFZ,
+            </if>
+            <if test="zjbg != null and zjbg != ''">
+                ZJBG,
+            </if>
+            <if test="wqryy != null and wqryy != ''">
+                WQRYY,
+            </if>
+            <if test="cgqrsj != null">
+                CGQRSJ,
+            </if>
+            <if test="cgsfsh != null and cgsfsh != ''">
+                CGSFSH,
+            </if>
+            <if test="cgshqr != null and cgshqr != ''">
+                CGSHQR,
+            </if>
+            <if test="wgsyy != null and wgsyy != ''">
+                WGSYY,
+            </if>
+            <if test="chshsj != null">
+                CHSHSJ,
+            </if>
+            <if test="cghjsj != null">
+                CGHJSJ,
+            </if>
+            <if test="cgyszt != null and cgyszt != ''">
+                CGYSZT,
+            </if>
+            <if test="cghjzt != null and cghjzt != ''">
+                CGHJZT,
+            </if>
+            <if test="djh != null and djh != ''">
+                DJH,
+            </if>
+            <if test="bdcdyh != null and bdcdyh != ''">
+                BDCDYH,
+            </if>
+            <if test="cgshr != null and cgshr != ''">
+                CGSHR,
+            </if>
+            <if test="cgshrid != null and cgshrid != ''">
+                CGSHRID,
+            </if>
+            <if test="cgshyj != null and cgshyj != ''">
+                CGSHYJ,
+            </if>
+            <if test="cgbh != null and cgbh != ''">
+                CGBH,
+            </if>
+            <if test="cgshjlsid != null and cgshjlsid != ''">
+                CGSHJLSID,
+            </if>
+            <if test="cgyssj != null">
+                CGYSSJ,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid != ''">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="chqssj != null">
+                #{chqssj,jdbcType=DATE},
+            </if>
+            <if test="chwcsj != null">
+                #{chwcsj,jdbcType=DATE},
+            </if>
+            <if test="chssbcsm != null and chssbcsm != ''">
+                #{chssbcsm,jdbcType=VARCHAR},
+            </if>
+            <if test="ssfj != null and ssfj != ''">
+                #{ssfj,jdbcType=DATE},
+            </if>
+            <if test="cghjfj != null and cghjfj != ''">
+                #{cghjfj,jdbcType=VARCHAR},
+            </if>
+            <if test="chcgfzr != null and chcgfzr != ''">
+                #{chcgfzr,jdbcType=VARCHAR},
+            </if>
+            <if test="fzrdh != null and fzrdh != ''">
+                #{fzrdh,jdbcType=VARCHAR},
+            </if>
+            <if test="cghjbcsm != null and cghjbcsm != ''">
+                #{cghjbcsm,jdbcType=VARCHAR},
+            </if>
+            <if test="cgqrfj != null and cgqrfj != ''">
+                #{cgqrfj,jdbcType=VARCHAR},
+            </if>
+            <if test="cgqrbcsm != null and cgqrbcsm != ''">
+                #{cgqrbcsm,jdbcType=VARCHAR},
+            </if>
+            <if test="cgysfj != null and cgysfj != ''">
+                #{cgysfj,jdbcType=VARCHAR},
+            </if>
+            <if test="cgysbcsm != null and cgysbcsm != ''">
+                #{cgysbcsm,jdbcType=VARCHAR},
+            </if>
+            <if test="cgshfj != null and cgshfj != ''">
+                #{cgshfj,jdbcType=VARCHAR},
+            </if>
+            <if test="cgshbcsm != null and cgshbcsm != ''">
+                #{cgshbcsm,jdbcType=VARCHAR},
+            </if>
+            <if test="yl1 != null and yl1 != ''">
+                #{yl1,jdbcType=VARCHAR},
+            </if>
+            <if test="yl2 != null and yl2 != ''">
+                #{yl2,jdbcType=VARCHAR},
+            </if>
+            <if test="yl3 != null and yl3 != ''">
+                #{yl3,jdbcType=VARCHAR},
+            </if>
+            <if test="ywmc != null and ywmc != ''">
+                #{ywmc,jdbcType=VARCHAR},
+            </if>
+            <if test="cjsj != null">
+                #{cjsj,jdbcType=VARCHAR},
+            </if>
+            <if test="zt != null and zt != ''">
+                #{zt,jdbcType=VARCHAR},
+            </if>
+            <if test="fzrsfz != null and fzrsfz != ''">
+                #{fzrsfz,jdbcType=VARCHAR},
+            </if>
+            <if test="zjbg != null and zjbg != ''">
+                #{zjbg,jdbcType=VARCHAR},
+            </if>
+            <if test="wqryy != null and wqryy != ''">
+                #{wqryy,jdbcType=VARCHAR},
+            </if>
+            <if test="cgqrsj != null">
+                #{cgqrsj,jdbcType=DATE},
+            </if>
+            <if test="cgsfsh != null and cgsfsh != ''">
+                #{cgsfsh,jdbcType=VARCHAR},
+            </if>
+            <if test="cgshqr != null and cgshqr != ''">
+                #{cgshqr,jdbcType=VARCHAR},
+            </if>
+            <if test="wgsyy != null and wgsyy != ''">
+                #{wgsyy,jdbcType=VARCHAR},
+            </if>
+            <if test="chshsj != null">
+                #{chshsj,jdbcType=DATE},
+            </if>
+            <if test="cghjsj != null">
+                #{cghjsj,jdbcType=DATE},
+            </if>
+            <if test="cgyszt != null and cgyszt != ''">
+                #{cgyszt,jdbcType=VARCHAR},
+            </if>
+            <if test="cghjzt != null and cghjzt != ''">
+                #{cghjzt,jdbcType=VARCHAR},
+            </if>
+            <if test="djh != null and djh != ''">
+                #{djh,jdbcType=VARCHAR},
+            </if>
+            <if test="bdcdyh != null and bdcdyh != ''">
+                #{bdcdyh,jdbcType=VARCHAR},
+            </if>
+            <if test="cgshr != null and cgshr != ''">
+                #{cgshr,jdbcType=VARCHAR},
+            </if>
+            <if test="cgshrid != null and cgshrid != ''">
+                #{cgshrid,jdbcType=VARCHAR},
+            </if>
+            <if test="cgshyj != null and cgshyj != ''">
+                #{cgshyj,jdbcType=VARCHAR},
+            </if>
+            <if test="cgbh != null and cgbh != ''">
+                #{cgbh,jdbcType=VARCHAR},
+            </if>
+            <if test="cgshjlsid != null and cgshjlsid != ''">
+                #{cgshjlsid,jdbcType=VARCHAR},
+            </if>
+            <if test="cgyssj != null">
+                #{cgyssj,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update DCHY_YWXX
+        <set>
+            <if test="pid != null and pid != ''">
+                PID = #{pid},
+            </if>
+            <if test="chqssj != null">
+                CHQSSJ = #{chqssj},
+            </if>
+            <if test="chwcsj != null">
+                CHWCSJ = #{chwcsj},
+            </if>
+            <if test="chssbcsm != null and chssbcsm != ''">
+                CHSSBCSM = #{chssbcsm},
+            </if>
+            <if test="ssfj != null and ssfj != ''">
+                SSFJ = #{ssfj},
+            </if>
+            <if test="cghjfj != null and cghjfj != ''">
+                CGHJFJ = #{cghjfj},
+            </if>
+            <if test="chcgfzr != null and chcgfzr != ''">
+                CHCGFZR = #{chcgfzr},
+            </if>
+            <if test="fzrdh != null and fzrdh != ''">
+                FZRDH = #{fzrdh},
+            </if>
+            <if test="cghjbcsm != null and cghjbcsm != ''">
+                CGHJBCSM = #{cghjbcsm},
+            </if>
+            <if test="cgqrfj != null and cgqrfj != ''">
+                CGQRFJ = #{cgqrfj},
+            </if>
+            <if test="cgqrbcsm != null and cgqrbcsm != ''">
+                CGQRBCSM = #{cgqrbcsm},
+            </if>
+            <if test="cgysfj != null and cgysfj != ''">
+                CGYSFJ = #{cgysfj},
+            </if>
+            <if test="cgysbcsm != null and cgysbcsm != ''">
+                CGYSBCSM = #{cgysbcsm},
+            </if>
+            <if test="cgshfj != null and cgshfj != ''">
+                CGSHFJ = #{cgshfj},
+            </if>
+            <if test="cgshbcsm != null and cgshbcsm != ''">
+                CGSHBCSM = #{cgshbcsm},
+            </if>
+            <if test="yl1 != null and yl1 != ''">
+                YL1 = #{yl1},
+            </if>
+            <if test="yl2 != null and yl2 != ''">
+                YL2 = #{yl2},
+            </if>
+            <if test="yl3 != null and yl3 != ''">
+                YL3 = #{yl3},
+            </if>
+            <if test="ywmc != null and ywmc != ''">
+                YWMC = #{ywmc},
+            </if>
+            <if test="cjsj != null">
+                CJSJ = #{cjsj},
+            </if>
+            <if test="zt != null and zt != ''">
+                ZT = #{zt},
+            </if>
+            <if test="fzrsfz != null and fzrsfz != ''">
+                FZRSFZ = #{fzrsfz},
+            </if>
+            <if test="zjbg != null and zjbg != ''">
+                ZJBG = #{zjbg},
+            </if>
+            <if test="wqryy != null and wqryy != ''">
+                WQRYY = #{wqryy},
+            </if>
+            <if test="cgqrsj != null">
+                CGQRSJ = #{cgqrsj},
+            </if>
+            <if test="cgsfsh != null and cgsfsh != ''">
+                CGSFSH = #{cgsfsh},
+            </if>
+            <if test="cgshqr != null and cgshqr != ''">
+                CGSHQR = #{cgshqr},
+            </if>
+            <if test="wgsyy != null and wgsyy != ''">
+                WGSYY = #{wgsyy},
+            </if>
+            <if test="chshsj != null">
+                CHSHSJ = #{chshsj},
+            </if>
+            <if test="cghjsj != null">
+                CGHJSJ = #{cghjsj},
+            </if>
+            <if test="cgyszt != null and cgyszt != ''">
+                CGYSZT = #{cgyszt},
+            </if>
+            <if test="cghjzt != null and cghjzt != ''">
+                CGHJZT = #{cghjzt},
+            </if>
+            <if test="djh != null and djh != ''">
+                DJH = #{djh},
+            </if>
+            <if test="bdcdyh != null and bdcdyh != ''">
+                BDCDYH = #{bdcdyh},
+            </if>
+            <if test="cgshr != null and cgshr != ''">
+                CGSHR = #{cgshr},
+            </if>
+            <if test="cgshrid != null and cgshrid != ''">
+                CGSHRID = #{cgshrid},
+            </if>
+            <if test="cgshyj != null and cgshyj != ''">
+                CGSHYJ = #{cgshyj},
+            </if>
+            <if test="cgbh != null and cgbh != ''">
+                CGBH = #{cgbh},
+            </if>
+            <if test="cgshjlsid != null and cgshjlsid != ''">
+                CGSHJLSID = #{cgshjlsid},
+            </if>
+            <if test="cgyssj != null">
+                CGYSSJ = #{cgyssj},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from DCHY_YWXX where ID = #{id}
+    </delete>
+
+</mapper>

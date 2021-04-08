@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.DchyService.dao.DchyBsznDao">
+    <resultMap id="BaseResultMap"  type="com.github.DchyService.entity.Policy">
+        <result column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="TYPE" jdbcType="VARCHAR" property="type"/>
+        <result column="TITLE" jdbcType="VARCHAR" property="title"/>
+        <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="UPDATETIME" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="STATE" jdbcType="VARCHAR" property="state"/>
+        <result column="USERNAME" jdbcType="VARCHAR" property="username"/>
+        <result column="EDITORHTML" jdbcType="VARCHAR" property="editorhtml"/>
+        <result column="ITEM" jdbcType="VARCHAR" property="item"/>
+        <result column="FILEID" jdbcType="VARCHAR" property="fileid"/>
+        <result column="USERID" jdbcType="VARCHAR" property="userid"/>
+        <result column="PAGEVIEWS" jdbcType="INTEGER" property="pageviews"/>
+        <result column="fjid" jdbcType="VARCHAR" property="fjid"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    ID,TYPE,TITLE,CREATETIME,UPDATETIME,STATE,USERNAME,EDITORHTML,ITEM,FILEID,USERID,PAGEVIEWS,FJID
+    </sql>
+  <select id="selectByPolicyId" parameterType="String" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"></include>
+        from DCHY_POLICY
+        where id=#{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPolicyItem" parameterType="String" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"></include>
+        from DCHY_POLICY
+        where item=#{item,jdbcType=VARCHAR} and (state!='删除' or state is null)
+  </select>
+  <select id="selectBykey" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from DCHY_POLICY
+        <if test="key!=null and key!=''">
+        where title like (concat(concat('%', #{key}), '%')) or item like (concat(concat('%', #{key}), '%'))
+        </if>
+    </select>
+    
+    <update id="updateStateById" parameterType="string" >
+		UPDATE DCHY_POLICY
+		SET STATE =#{state,jdbcType=VARCHAR},
+		    UPDATETIME=to_date(#{dateStr,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updatePageViewsById" parameterType="string" >
+		UPDATE DCHY_POLICY
+		SET PAGEVIEWS = PAGEVIEWS + 1
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="getPolicyList" parameterType="java.util.Map" resultMap="BaseResultMap">
+	    SELECT 
+	    <include refid="Base_Column_List"></include>
+	    FROM DCHY_POLICY 
+	    WHERE STATE != '删除'
+	    <trim>
+            <if test="str != null and str != ''">
+                AND TITLE||TYPE||ITEM like '%'||#{str,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="title != null and title != ''">
+                AND TITLE = #{title,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null and type != ''">
+                AND TYPE = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="item != null and item != ''">
+                AND ITEM = #{item,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null and state != ''">
+                AND STATE = #{state,jdbcType=VARCHAR}
+            </if>
+        </trim>
+        ORDER BY CREATETIME DESC
+	</select>
+    
+</mapper>

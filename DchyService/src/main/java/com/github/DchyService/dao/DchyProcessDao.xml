@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyProcessDao">
+
+	<resultMap type="com.github.DchyService.entity.DchyProcess" id="DchyProcessMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="processName" column="processName" jdbcType="VARCHAR" />
+		<result property="processAlias" column="processAlias" jdbcType="VARCHAR" />
+		<result property="processSeqname" column="processSeqname" jdbcType="VARCHAR" />
+		<result property="pid" column="pid" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="baseCol">
+		id,processName,processAlias,processSeqname,serialCode,pid
+	</sql>
+
+	<insert id="addByEntity" parameterType="com.github.DchyService.entity.DchyProcess">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into DCHY_PROCESS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">ID,</if>
+			<if test="processName !=null and processName !=''">ROLE,</if>
+			<if test="processAlias !=null and processAlias !=''">COUNT,</if>
+			<if test="processSeqname !=null and processSeqname !=''">FJZD1,</if>
+			<if test="pid !=null and pid !=''">FJZD2,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">#{id},</if>
+			<if test="processName !=null and processName !=''">#{processName},</if>
+			<if test="processAlias !=null and processAlias !=''">#{processAlias},</if>
+			<if test="processSeqname !=null and processSeqname !=''">#{processSeqname},</if>
+			<if test="pid !=null and pid !=''">#{pid},</if>
+		</trim>
+	</insert>
+	<update id="updByEntity" parameterType="com.github.DchyService.entity.DchyProcess">
+		update DCHY_PROCESS
+		<set>
+			<if test="id != null and id != ''">
+				id = #{id},
+			</if>
+			<if test="processName != null and processName != ''">
+				processName = #{processName},
+			</if>
+			<if test="processAlias != null and processAlias != ''">
+				processAlias = #{processAlias},
+			</if>
+			<if test="processSeqname != null and processSeqname != ''">
+				processSeqname = #{processSeqname},
+			</if>
+			<if test="pid != null and pid != ''">
+				pid = #{pid},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<!--通过主键删除 -->
+	<delete id="delById">
+		delete from Dchy_Process where ID = #{id}
+	</delete>
+
+
+
+	<select id="getByName" resultMap="DchyProcessMap">
+		select <include refid="baseCol"></include> from DCHY_PROCESS where processName=#{name}
+	</select>
+	<select id="getByAlias" resultMap="DchyProcessMap">
+		select <include refid="baseCol"></include> from DCHY_PROCESS where processAlias=#{alias}
+	</select>
+	<select id="getBy1and2" resultMap="DchyProcessMap">
+		select <include refid="baseCol"></include> from dchy_process b where b.pid=
+		(select id from dchy_process t where t.processalias=#{oneAlias}) and b.processalias=#{twoAlias}
+	</select>
+	<select id="getById" resultMap="DchyProcessMap">
+		select <include refid="baseCol"></include> from DCHY_PROCESS where id=#{id}
+	</select>
+	<select id="getList" resultMap="DchyProcessMap">
+		select <include refid="baseCol"></include> from DCHY_PROCESS
+		<if test="str !='' and str != null">
+			<where>
+				id||processName||processAlias||processSeqname||pid like  '%'||#{str,jdbcType=VARCHAR}||'%'
+			</where>
+		</if>
+	</select>
+
+</mapper>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchySqyxDao">
+
+    <resultMap type="com.github.DchyService.entity.DchySqyx" id="DchySqyxMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="chdwid" column="CHDWID" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="VARCHAR"/>
+        <result property="xmbj" column="XMBJ" jdbcType="VARCHAR"/>
+        <result property="lxrdh" column="LXRDH" jdbcType="VARCHAR"/>
+        <result property="lxr" column="LXR" jdbcType="VARCHAR"/>
+        <result property="dxxz" column="DXXZ" jdbcType="VARCHAR"/>
+        <result property="wtqr" column="WTQR" jdbcType="VARCHAR"/>
+        <result property="wtsj" column="WTSJ" jdbcType="TIMESTAMP"/>
+        <result property="cjsj" column="CJSJ" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap type="com.github.DchyService.entity.DchyFbxx" id="DchyFbxxMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>          <!--主键id-->
+        <result property="xmmc" column="xmmc" jdbcType="VARCHAR"/>      <!--项目名称-->
+        <result property="wtdw" column="wtdw" jdbcType="VARCHAR"/>      <!--委托单位-->
+        <result property="wtdwid" column="wtdwid" jdbcType="VARCHAR"/>  <!--委托单位id-->
+        <result property="xmdz" column="xmdz" jdbcType="VARCHAR"/>      <!--项目地址-->
+        <result property="chjd" column="chjd" jdbcType="VARCHAR"/>      <!--测绘阶段-->
+        <result property="zzdj" column="zzdj" jdbcType="VARCHAR"/>      <!--资质等级-->
+        <result property="yqxydj" column="yqxydj" jdbcType="VARCHAR"/>      <!--要求信用等级-->
+        <result property="jyfs" column="jyfs" jdbcType="VARCHAR"/>      <!--交易方式-->
+        <result property="ysje" column="ysje" jdbcType="VARCHAR"/>      <!--预算金额-->
+        <result property="djbh" column="djbh" jdbcType="VARCHAR"/>      <!--地籍编号-->
+        <result property="lxyj" column="lxyj" jdbcType="VARCHAR" />      <!--立项依据-->
+        <result property="zjly" column="zjly" jdbcType="VARCHAR"/>      <!--资金来源-->
+        <result property="xmwcsx" column="xmwcsx" jdbcType="VARCHAR"/>      <!--项目完成时限-->
+        <result property="fwnr" column="fwnr" jdbcType="VARCHAR"/>      <!--服务内容-->
+        <result property="bmkssj" column="bmkssj" jdbcType="TIMESTAMP"/>    <!--报名开始时间-->
+        <result property="bmjssj" column="bmjssj" jdbcType="TIMESTAMP"/>    <!--报名结束时间-->
+        <result property="yzdwlxr" column="yzdwlxr" jdbcType="TIMESTAMP"/>    <!--业主单位联系人-->
+        <result property="yzdwlxrdh" column="yzdwlxrdh" jdbcType="TIMESTAMP"/>    <!--业主单位联系人联系电话-->
+        <result property="bz" column="BZ" jdbcType="CLOB" />    <!--备注-->
+        <result property="fjtj" column="FJTJ" jdbcType="VARCHAR"/>    <!--附加条件-->
+        <result property="xmzt" column="xmzt" jdbcType="VARCHAR"/>    <!--项目状态-->
+        <result property="dchybh" column="dchybh" jdbcType="VARCHAR"/>    <!--多测合一编号-->
+        <result property="cjsj" column="cjsj" jdbcType="TIMESTAMP"/>    <!--创建时间-->
+    </resultMap>
+    <!--<resultMap id="ProjectDetail" type="java.util.HashMap">
+        <collection property="project" javaType="java.util.HashMap" column="{id=project_id,condition=condition}"
+                    select="getproject"/>
+        <collection property="process_log" javaType="java.util.HashMap" column="{id=id}"
+                    select="getprocesslog"/>
+    </resultMap>-->
+    <resultMap id="ProjectDetail" type="java.util.HashMap">
+        <collection property="project" javaType="java.util.HashMap" column="{id=pid}" select="getFbxx"/>
+    </resultMap>
+    <!--    获取中标公告-->
+    <select id="getZbGg" resultType="java.util.Map" >
+        select * from (select a.*,(select c.unit_name
+        from dchy_sqyx b,dchy_company c where b.pid=a.id and b.chdwid=c.id and b.wtqr like '%Y')  as chdwmc,
+        (select b.wtsj
+        from dchy_sqyx b,dchy_company c where b.pid=a.id and b.chdwid=c.id and b.wtqr like '%Y')  as wtsj,
+        (select b.id
+        from dchy_sqyx b,dchy_company c where b.pid=a.id and b.chdwid=c.id and b.wtqr like '%Y')  as sqyxid,
+        (select b.chdwid
+        from dchy_sqyx b,dchy_company c where b.pid=a.id and b.chdwid=c.id and b.wtqr like '%Y')  as chdwid,
+        (select b.xmbj
+        from dchy_sqyx b,dchy_company c where b.pid=a.id and b.chdwid=c.id and b.wtqr like '%Y')  as xmbj,
+        (case
+        when
+        (select count(*) from dchy_sqyx b where b.pid=a.id and b.wtqr like '%Y%')>0
+        then '中标'
+        when
+        a.bmjssj &lt; sysdate and (select count(*) from dchy_sqyx b where b.pid=a.id and b.wtqr='M') &lt; 1
+        then '废标1'
+        when a.bmjssj+1 &lt; sysdate and (select count(*) from dchy_sqyx b where b.pid=a.id and wtqr='Y') &lt; 1
+        then '废标2'
+        when a.xmzt like '%废标%'
+        then '废标3'
+        else null
+        end ) as fb
+        from dchy_fbxx a) d where d.fb is not null
+        /*select b.XMMC,b.WTDW,b.WTDWID,b.BMKSSJ,
+        a.XMBJ,b.CHJD,a.WTSJ,a.chdwid,c.unit_name as CHDW,a.id as sqid,b.id,c.id as companyid
+        from DCHY_SQYX a,DCHY_FBXX b,dchy_company c
+        where a.pid=b.id and c.id = a.chdwid and a.wtqr = 'Y'*/
+        <trim>
+            <if test="str !='' and str != null" >
+               and d.XMMC||d.WTDW||d.CHJD||d.BMKSSJ||d.chdwmc||d.xmbj||d.id like '%'|| #{str,jdbcType=VARCHAR}|| '%'
+            </if>
+        </trim>
+        order by d.wtsj desc
+    </select>
+    <!--查询发布信息-->
+    <select id="getFbxx" resultMap="DchyFbxxMap">
+        select * from DCHY_FBXX
+    </select>
+    <select id="getByPidAndChdwid" resultMap="DchySqyxMap">
+        select * from DCHY_SQYX where pid=#{pid,jdbcType=VARCHAR} and chdwid=#{chdwid,jdbcType=VARCHAR}
+    </select>
+<!--    某个发布信息的被那些单位申请,支持模糊查询接口-->
+    <select id="getSqyxListByFbxxid" resultType="java.util.Map">
+        select
+        a.ID as sqyxId, a.CHDWID, a.pid, a.XMBJ, a.LXRDH, a.LXR, a.DXXZ, a.WTQR, a.WTSJ, a.CJSJ as sqyxCjsj,
+        b.ID, b.XMMC, b.WTDW, b.WTDWID, b.XMDZ, b.CHJD, b.ZZDJ, b.YQXYDJ, b.JYFS, b.YSJE, b.DJBH, b.ZJLY, b.XMWCSX,
+        b.FWNR, b.BMKSSJ, b.BMJSSJ, b.YZDWLXR,b.YZDWLXRDH, b.CJSJ, b.XMZT, b.DCHYBH, b.LXYJ, b.BZ, b.FJTJ,b.XMSSXZQ,
+        c.unit_name,c.unit_type,
+            zzxx.zzdj as zzxxzzdj
+        from DCHY_SQYX a, DCHY_FBXX b, DCHY_company c, dchy_zzxx zzxx
+            where a.pid = b.id
+            and c.id = a.chdwid
+            and zzxx.did = c.id
+            and a.pid = #{id,jdbcType=VARCHAR}
+            and a.wtqr like '%M%'
+        <trim>
+            <if test="str !='' and str != null">
+                and b.WTDW||b.CHJD||b.BMKSSJ||a.XMBJ||b.CHJD||a.WTSJ||c.unit_name
+                 like '%'|| #{str,jdbcType=VARCHAR}|| '%'
+            </if>
+        </trim>
+    </select>
+    <!--查询单个-->
+    <select id="queryById" resultMap="DchySqyxMap">
+        select
+          ID, CHDWID, pid, XMBJ, LXRDH, LXR, DXXZ, WTQR, WTSJ, CJSJ
+        from DCHY_SQYX
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllBy" resultMap="DchySqyxMap">
+        select
+          ID, CHDWID, pid, XMBJ, LXRDH, LXR, DXXZ, WTQR, WTSJ, CJSJ
+        from DCHY_SQYX
+    </select>
+    <select id="getSqyxListBypid" resultMap="DchySqyxMap">
+        select
+          ID, CHDWID, pid, XMBJ, LXRDH, LXR, DXXZ, WTQR, WTSJ, CJSJ
+        from DCHY_SQYX where pid=#{id,jdbcType=VARCHAR},
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DchySqyxMap">
+        select
+        ID, CHDWID, pid, XMBJ, LXRDH, LXR, DXXZ, WTQR, WTSJ, CJSJ
+        from DCHY_SQYX
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="chdwid != null and chdwid != ''">
+                and CHDWID = #{chdwid}
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid = #{pid}
+            </if>
+            <if test="xmbj != null and xmbj != ''">
+                and XMBJ = #{xmbj}
+            </if>
+            <if test="lxrdh != null and lxrdh != ''">
+                and LXRDH = #{lxrdh}
+            </if>
+            <if test="lxr != null and lxr != ''">
+                and LXR = #{lxr}
+            </if>
+            <if test="dxxz != null and dxxz != ''">
+                and DXXZ = #{dxxz}
+            </if>
+            <if test="wtqr != null and wtqr != ''">
+                and WTQR = #{wtqr}
+            </if>
+            <if test="wtsj != null">
+                and WTSJ = #{wtsj}
+            </if>
+            <if test="cjsj != null">
+                and CJSJ = #{cjsj}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.github.DchyService.dao.DchySqyxDao">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select sys_guid() from dual
+        </selectKey>
+        insert into DCHY_SQYX
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id !=''">
+                ID,
+            </if>
+            <if test="chdwid != null and chdwid !=''">
+                CHDWID,
+            </if>
+            <if test="pid != null and pid !=''">
+                pid,
+            </if>
+            <if test="xmbj != null and xmbj != ''">
+                XMBJ,
+            </if>
+            <if test="lxrdh != null and lxrdh != ''">
+                LXRDH,
+            </if>
+            <if test="lxr != null and lxr != ''">
+                LXR,
+            </if>
+            <if test="dxxz != null and dxxz !=''">
+                DXXZ,
+            </if>
+            <if test="wtqr != null and wtqr !=''">
+                WTQR,
+            </if>
+            <if test="wtsj != null">
+                WTSJ,
+            </if>
+            <if test="cjsj != null">
+                CJSJ,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id !=''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="chdwid != null and chdwid !=''">
+                #{chdwid,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid !=''">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="xmbj != null and xmbj != ''">
+                #{xmbj,jdbcType=VARCHAR},
+            </if>
+            <if test="lxrdh != null and lxrdh != ''">
+                #{lxrdh,jdbcType=VARCHAR},
+            </if>
+            <if test="lxr != null and lxr != ''">
+                #{lxr,jdbcType=VARCHAR},
+            </if>
+            <if test="dxxz != null and dxxz !=''">
+                #{dxxz,jdbcType=VARCHAR},
+            </if>
+            <if test="wtqr != null and wtqr !=''">
+                #{wtqr,jdbcType=VARCHAR},
+            </if>
+            <if test="wtsj != null">
+                #{wtsj,jdbcType=DATE},
+            </if>
+            <if test="cjsj != null">
+                #{cjsj,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update DCHY_SQYX
+        <set>
+            <if test="chdwid != null and chdwid != ''">
+                CHDWID = #{chdwid},
+            </if>
+            <if test="pid != null and pid != ''">
+                pid = #{pid},
+            </if>
+            <if test="xmbj != null and xmbj != ''">
+                XMBJ = #{xmbj},
+            </if>
+            <if test="lxrdh != null and lxrdh != ''">
+                LXRDH = #{lxrdh},
+            </if>
+            <if test="lxr != null and lxr != ''">
+                LXR = #{lxr},
+            </if>
+            <if test="dxxz != null and dxxz != ''">
+                DXXZ = #{dxxz},
+            </if>
+            <if test="wtqr != null and wtqr != ''">
+                WTQR = #{wtqr},
+            </if>
+            <if test="wtsj != null">
+                WTSJ = #{wtsj},
+            </if>
+            <if test="cjsj != null">
+                CJSJ = #{cjsj},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+     <!--通过主键修改数据-->
+    <update id="updateBypid">
+        update DCHY_SQYX
+        <set>
+                WTQR ='MN'
+        </set>
+        where PID = #{pid,jdbcType=VARCHAR} and ID!=#{id,jdbcType=VARCHAR} and WTQR='M'
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from DCHY_SQYX where ID = #{id,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>

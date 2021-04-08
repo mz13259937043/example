@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyRoleuserDao">
+
+	<resultMap type="com.github.DchyService.entity.DchyRoleuser"
+		id="DchyRoleuserMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="roleid" column="ROLEID" jdbcType="VARCHAR" />
+		<result property="userid" column="USERID" jdbcType="VARCHAR" />
+		<result property="fjzd" column="ROLE" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--查询单个 -->
+	<select id="queryById" resultMap="DchyRoleuserMap">
+		select
+		ID, ROLEID, USERID,FJZD
+		from
+		DCHY_ROLEUSER
+		where ID = #{id}
+	</select>
+
+	<select id="queryByRoleId" resultMap="DchyRoleuserMap">
+		select
+		ID, ROLEID,
+		USERID,FJZD
+		from
+		DCHY_ROLEUSER
+		where ROLEID = #{roleid}
+	</select>
+
+	<select id="queryByRoleIdLimit" resultMap="DchyRoleuserMap">
+		select
+		ID, ROLEID,
+		USERID,FJZD
+		from
+		DCHY_ROLEUSER
+		where ROLEID = #{roleid} and rownum &lt;=#{limit} and rownum &gt;=#{offset}
+	</select>
+
+
+	<!--查询指定行数据 -->
+	<select id="queryAllByLimit" resultMap="DchyRoleuserMap">
+		select
+		ID, ROLEID,
+		USERID,FJZD
+		from DCHY_ROLEUSER
+	</select>
+
+	<select id="queryAllByUid" resultMap="DchyRoleuserMap">
+		select
+		u.ID, u.ROLEID,
+		u.USERID,r.ROLE
+		from DCHY_ROLEUSER u left join DCHY_ROLE r on
+		u.roleid=r.id
+		WHERE
+		USERID=#{userid}
+	</select>
+
+	<select id="queryAllByBgUid" resultMap="DchyRoleuserMap">
+		select
+		ID, ROLEID,
+		USERID,FJZD
+		from DCHY_ROLEUSER u left join DCHY_ROLE r on u.roleid=r.id
+		WHERE
+		USERID=#{userid}
+	</select>
+
+	<!--通过实体作为筛选条件查询 -->
+	<select id="queryAll" resultMap="DchyRoleuserMap">
+		select
+		ID, ROLEID, USERID,FJZD
+		from DCHY_ROLEUSER
+		<where>
+			<if test="id != null and id != ''">
+				and ID = #{id}
+			</if>
+			<if test="roleid != null and roleid != ''">
+				and ROLEID = #{roleid}
+			</if>
+			<if test="userid != null and userid != ''">
+				and USERID = #{userid}
+			</if>
+		</where>
+	</select>
+
+	<!--新增所有列 -->
+	<insert id="insert"
+		parameterType="com.github.DchyService.entity.DchyRoleuser">
+		<selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into DCHY_ROLEUSER(ID,ROLEID, USERID)
+		values (#{id},#{roleid},
+		#{userid})
+	</insert>
+
+	<insert id="insertBatch"
+		parameterType="com.github.DchyService.entity.DchyRoleuser">
+		<selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into DCHY_ROLEUSER(ID,ROLEID, USERID)
+		values
+		<foreach collection="entities" item="entity" separator=",">
+			(#{entity.id},#{entity.roleid}, #{entity.userid})
+		</foreach>
+	</insert>
+
+
+	<!--通过主键修改数据 -->
+	<update id="update"
+		parameterType="com.github.DchyService.entity.DchyRoleuser">
+		update DCHY_ROLEUSER
+		<set>
+			<if test="roleid != null and roleid != ''">
+				ROLEID = #{roleid},
+			</if>
+			<if test="userid != null and userid != ''">
+				USERID = #{userid},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+	<!--通过主键删除 -->
+	<delete id="deleteById">
+		delete from DCHY_ROLEUSER where ID = #{id}
+	</delete>
+
+	<!--通过用户主键删除 -->
+	<delete id="deleteByUid">
+		delete from DCHY_ROLEUSER where USERID = #{userid}
+	</delete>
+
+	<!--通过角色主键删除 -->
+	<delete id="deleteByRoleId">
+		delete from DCHY_ROLEUSER where ROLEID = #{roleid}
+	</delete>
+
+<!--通过角色主和用户主键删除 -->
+	<delete id="deleteRoleByUser">
+		delete from DCHY_ROLEUSER where ROLEID = #{roleid} and USERID=#{userid}
+	</delete>
+</mapper>

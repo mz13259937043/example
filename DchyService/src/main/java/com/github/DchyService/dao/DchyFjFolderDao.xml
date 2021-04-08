@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyFjFolderDao">
+
+    <resultMap type="com.github.DchyService.entity.DchyFjFolder" id="DchyFjFolderMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="path" column="PATH" jdbcType="VARCHAR"/>
+        <result property="parentid" column="PARENTID" jdbcType="VARCHAR"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="userid" column="USERID" jdbcType="VARCHAR"/>
+        <result property="creattime" column="CREATTIME" jdbcType="TIMESTAMP"/>
+        <collection property="dchyFjRecords" javaType="ArrayList" ofType="com.github.DchyService.entity.DchyFjRecord" select="getRecordByFolderId" column="{folderid=id}"/>
+        <collection property="dchyFjFolders" javaType="ArrayList" ofType="com.github.DchyService.entity.DchyFjFolder" select="getFolderByFolderId" column="{parentid=id}"/>
+    </resultMap>
+    <resultMap type="com.github.DchyService.entity.DchyFjRecord" id="DchyFjRecordMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="filename" column="FILENAME" jdbcType="VARCHAR"/>
+        <result property="filesize" column="FILESIZE" jdbcType="VARCHAR"/>
+        <result property="filepath" column="FILEPATH" jdbcType="VARCHAR"/>
+        <result property="folderid" column="FOLDERID" jdbcType="VARCHAR"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="userid" column="USERID" jdbcType="VARCHAR"/>
+        <result property="creattime" column="CREATTIME" jdbcType="TIMESTAMP"/>
+
+    </resultMap>
+
+
+    <resultMap id="folderPro" type="java.util.HashMap">
+        <collection property="records" javaType="java.util.ArrayList" column="{folderid=id}"
+                    select="getRecord"/>
+    </resultMap>
+
+    <select id="getRecordByKey" resultMap="DchyFjRecordMap">
+        select
+          ID, FILENAME, FILESIZE, FILEPATH, FOLDERID, USERNAME, USERID, CREATTIME
+        from DCHY_FJ_RECORD
+        where id=#{id,jdbcType=VARCHAR}
+    </select>
+<!--    查询目录下的文件夹-->
+    <select id="getFolderByFolderId" resultMap="DchyFjFolderMap">
+        select
+          ID, NAME, PATH, PARENTID, USERNAME, USERID, CREATTIME
+        from DCHY_FJ_FOLDER
+        where parentid=#{parentid,jdbcType=VARCHAR}
+    </select>
+    <!--用目录id查文件集合-->
+    <select id="getRecordByFolderId" resultMap="DchyFjRecordMap">
+         select
+          ID, FILENAME, FILESIZE, FILEPATH, FOLDERID, USERNAME, USERID, CREATTIME
+        from DCHY_FJ_RECORD
+        where folderid=#{folderid,jdbcType=VARCHAR}
+    </select>
+    <!--用路径查目录集合-->
+    <select id="getFolderByPath"  resultMap="DchyFjFolderMap">
+        select
+          ID, NAME, PATH, PARENTID, USERNAME, USERID, CREATTIME
+        from DCHY_FJ_FOlDER where path = #{filepath,jdbcType=VARCHAR}
+    </select>
+    <!--路径和文件名定位删除-->
+    <delete id="deleteRecordByPath">
+        delete from DCHY_FJ_RECORD where filename=#{name,jdbcType=VARCHAR} and filepath=#{filepath,jdbcType=VARCHAR}
+    </delete>
+    <insert id="addFolder" parameterType="com.github.DchyService.entity.DchyFjFolder">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select sys_guid() from dual
+        </selectKey>
+        insert into DCHY_FJ_FOLDER(ID, NAME, PATH, PARENTID, USERNAME, USERID, CREATTIME)
+        values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{parentid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{creattime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="addRecord" parameterType="com.github.DchyService.entity.DchyFjRecord">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select sys_guid() from dual
+        </selectKey>
+        insert into DCHY_FJ_RECORD
+        (ID, FILENAME, FILESIZE, FILEPATH, FOlDERID, USERNAME, USERID, CREATTIME)
+        values (#{id,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, #{filesize,jdbcType=VARCHAR}, #{filepath,jdbcType=VARCHAR}, #{folderid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{creattime,jdbcType=TIMESTAMP})
+    </insert>
+
+
+
+    <!--查询单个-->
+    <select id="getFolderByKey" resultMap="DchyFjFolderMap">
+        select
+          ID, NAME, PATH, PARENTID, USERNAME, USERID, CREATTIME
+        from DCHY_FJ_FOLDER where id=#{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DchyFjFolderMap">
+        select
+          ID, NAME, PATH, PARENTID, USERNAME, USERID, CREATTIME
+        from DCHY_FJ_FOLDER
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DchyFjFolderMap">
+        select
+        ID, NAME, PATH, PARENTID, USERNAME, USERID, CREATTIME
+        from DCHY_FJ_FolDER
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and NAME = #{name}
+            </if>
+            <if test="path != null and path != ''">
+                and PATH = #{path}
+            </if>
+            <if test="parentid != null and parentid != ''">
+                and PARENTID = #{parentid}
+            </if>
+            <if test="username != null and username != ''">
+                and USERNAME = #{username}
+            </if>
+            <if test="userid != null and userid != ''">
+                and USERID = #{userid}
+            </if>
+            <if test="creattime != null">
+                and CREATTIME = #{creattime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into DCHY_FJ_FOLDER(ID, NAME, PATH, PARENTID, USERNAME, USERID, CREATTIME)
+        values (#{id}, #{name}, #{path}, #{parentid}, #{username}, #{userid}, #{creattime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
+        insert into DCHY_FJ_FOLDER(ID, NAME, PATH, PARENTID, USERNAME, USERID, CREATTIME)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.name}, #{entity.path}, #{entity.parentid}, #{entity.username}, #{entity.userid},
+            #{entity.creattime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
+        insert into DCHY_FJ_FOLDER(ID, NAME, PATH, PARENTID, USERNAME, USERID, CREATTIME)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.name}, #{entity.path}, #{entity.parentid}, #{entity.username}, #{entity.userid},
+            #{entity.creattime})
+        </foreach>
+        on duplicate key update
+        ID = values(ID) , NAME = values(NAME) , PATH = values(PATH) , PARENTID = values(PARENTID) , USERNAME =
+        values(USERNAME) , USERID = values(USERID) , CREATTIME = values(CREATTIME)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update DCHY_FJ_FOLDER
+        <set>
+            <if test="id != null and id != ''">
+                ID = #{id},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name},
+            </if>
+            <if test="path != null and path != ''">
+                PATH = #{path},
+            </if>
+            <if test="parentid != null and parentid != ''">
+                PARENTID = #{parentid},
+            </if>
+            <if test="username != null and username != ''">
+                USERNAME = #{username},
+            </if>
+            <if test="userid != null and userid != ''">
+                USERID = #{userid},
+            </if>
+            <if test="creattime != null">
+                CREATTIME = #{creattime},
+            </if>
+        </set>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteFolderByKey">
+        delete from DCHY_FJ_FOLDER where id=#{id}
+    </delete>
+    <delete id="deleteRecordByKey">
+        delete from DCHY_FJ_RECORD where id=#{id}
+    </delete>
+
+
+
+</mapper>

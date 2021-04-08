@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyRoleDao">
+
+	<resultMap type="com.github.DchyService.entity.DchyRole"
+		id="DchyRoleMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="role" column="ROLE" jdbcType="VARCHAR" />
+		<result property="count" column="COUNT" jdbcType="VARCHAR" />
+		<result property="fjzd1" column="FJZD1" jdbcType="VARCHAR" />
+		<result property="fjzd2" column="FJZD2" jdbcType="VARCHAR" />
+		<result property="type" column="TYPE" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--查询单个 -->
+	<select id="queryById" resultMap="DchyRoleMap">
+		select
+		ID,
+		ROLE,COUNT,FJZD1,FJZD2,TYPE
+		from
+		DCHY_ROLE
+		where ID = #{id}
+	</select>
+	
+	<!--查询单个 -->
+	<select id="queryByRole" resultMap="DchyRoleMap">
+		select
+		ID,
+		ROLE,COUNT,FJZD1,FJZD2,TYPE
+		from
+		DCHY_ROLE
+		where ROLE = #{role}
+	</select>
+
+	<select id="findRoleByLimit" resultMap="DchyRoleMap">
+		select
+		ID,
+		ROLE,COUNT,FJZD1,FJZD2,TYPE
+		from
+		DCHY_ROLE where 
+		<if test="str != null and str != ''">
+			(ROLE like '%${str}%'
+			or COUNT like '%${str}%') and 
+		</if>
+		rownum &lt;=#{limit} and rownum &gt;=#{offset}
+	</select>
+
+	<select id="findRole" resultMap="DchyRoleMap">
+		select
+		ID,
+		ROLE,COUNT,FJZD1,FJZD2,TYPE
+		from
+		DCHY_ROLE
+		<if test="str != null and str != ''">
+			where (ROLE like '%${str}%'
+			or COUNT like '%${str}%'
+			or TYPE like '%${str}%')
+		</if>
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllByLimit" resultMap="DchyRoleMap">
+		select
+		ID,
+		ROLE,COUNT,FJZD1,FJZD2,TYPE
+		from
+		DCHY_ROLE where rownum &lt;=#{limit}
+		and
+		rownum &gt;=#{offset}
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllRole" resultMap="DchyRoleMap">
+		select
+		ID,
+		ROLE,COUNT,FJZD1,FJZD2,TYPE
+		from
+		DCHY_ROLE
+	</select>
+
+	<!--通过实体作为筛选条件查询 -->
+	<select id="queryAll" resultMap="DchyRoleMap">
+		select
+		ID, ROLE,COUNT,FJZD1,FJZD2,TYPE
+		from DCHY_ROLE
+		<where>
+			<if test="id != null and id != ''">
+				and ID = #{id}
+			</if>
+			<if test="role != null and role != ''">
+				and ROLE = #{role}
+			</if>
+			<if test="type != null and type != ''">
+				and TYPE = #{type}
+			</if>
+			<if test="fjzd1 != null and fjzd1 != ''">
+				and FJZD1 = #{fjzd1}
+			</if>
+			<if test="fjzd2 != null and fjzd2 != ''">
+				and FJZD2 = #{fjzd2}
+			</if>
+		</where>
+	</select>
+
+	<!--新增所有列 -->
+	<insert id="insert"
+		parameterType="com.github.DchyService.entity.DchyRole">
+		<selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into DCHY_ROLE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">ID,</if>
+			<if test="role !=null and role !=''">ROLE,</if>
+			<if test="count !=null and count !=''">COUNT,</if>
+			<if test="fjzd1 !=null and fjzd1 !=''">FJZD1,</if>
+			<if test="fjzd2 !=null and fjzd2 !=''">FJZD2,</if>
+			<if test="type !=null and type !=''">TYPE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">#{id},</if>
+			<if test="role !=null and role !=''">#{role},</if>
+			<if test="count !=null and count !=''">#{count},</if>
+			<if test="fjzd1 !=null and fjzd1 !=''">#{fjzd1},</if>
+			<if test="fjzd2 !=null and fjzd2 !=''">#{fjzd2},</if>
+			<if test="type !=null and type !=''">#{type},</if>
+		</trim>
+	</insert>
+
+	<!--通过主键修改数据 -->
+	<update id="update"
+		parameterType="com.github.DchyService.entity.DchyRole">
+		update DCHY_ROLE
+		<set>
+			<if test="role != null and role != ''">
+				ROLE = #{role},
+			</if>
+			<if test="count != null and count != ''">
+				COUNT = #{count},
+			</if>
+			<if test="fjzd1 != null and fjzd1 != ''">
+				FJZD1 = #{fjzd1},
+			</if>
+			<if test="fjzd2 != null and fjzd2 != ''">
+				FJZD2 = #{fjzd2},
+			</if>
+			<if test="type != null and type != ''">
+				TYPE = #{type},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+	<!--通过主键删除 -->
+	<delete id="deleteById">
+		delete from DCHY_ROLE where ID = #{id}
+	</delete>
+
+</mapper>

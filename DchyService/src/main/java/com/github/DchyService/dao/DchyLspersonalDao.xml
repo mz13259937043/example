@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyLspersonalDao">
+
+	<resultMap
+		type="com.github.DchyService.entity.DchyLspersonal"
+		id="DchyLspersonalMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="lsname" column="LSNAME" jdbcType="VARCHAR" />
+		<result property="lsidcard" column="LSIDCARD"
+			jdbcType="VARCHAR" />
+		<result property="lsphonenum" column="LSPHONENUM"
+			jdbcType="VARCHAR" />
+		<result property="lspassword" column="LSPASSWORD"
+			jdbcType="VARCHAR" />
+		<result property="lscreatetime" column="LSCREATETIME"
+			jdbcType="TIMESTAMP" />
+		<result property="lsinfor" column="LSINFOR" jdbcType="VARCHAR" />
+		<result property="lsstate" column="LSSTATE" jdbcType="VARCHAR" />
+		<result property="lsdid" column="LSDID" jdbcType="VARCHAR" />
+		<result property="bgbid" column="BGBID" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--查询单个 -->
+	<select id="queryById" resultMap="DchyLspersonalMap">
+		select
+		ID, LSNAME, LSIDCARD,
+		LSPHONENUM, LSCREATETIME, LSINFOR,
+		LSSTATE, LSDID,
+		BGBID
+		from
+		DCHY_LSPERSONAL
+		where ID = #{id}
+	</select>
+
+
+	<!--查询单个 -->
+	<select id="queryByDid" resultMap="DchyLspersonalMap">
+		select
+		ID, LSNAME, LSIDCARD,
+		LSPHONENUM, LSCREATETIME, LSINFOR,
+		LSSTATE, LSDID,
+		BGBID
+		from
+		DCHY_LSPERSONAL
+		where LSDID = #{lsdid}
+	</select>
+
+	<select id="queryByBgbid" resultMap="DchyLspersonalMap">
+		select
+		ID, LSNAME, LSIDCARD,
+		LSPHONENUM, LSCREATETIME, LSINFOR,
+		LSSTATE, LSDID,
+		BGBID
+		from
+		DCHY_LSPERSONAL
+		where LSBGBID = #{bgbid}
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllByLimit" resultMap="DchyLspersonalMap">
+		select
+		ID, LSNAME,
+		LSIDCARD, LSPHONENUM, LSCREATETIME, LSINFOR,
+		LSSTATE, LSDID, BGBID
+		from
+		DCHY_LSPERSONAL
+		where rownum
+		&lt;=#{limit} and rownum &gt;=#{offset}
+	</select>
+
+	<!--通过实体作为筛选条件查询 -->
+	<select id="queryAll" resultMap="DchyLspersonalMap">
+		select
+		ID, LSNAME, LSIDCARD, LSPHONENUM, LSCREATETIME,
+		LSINFOR,
+		LSSTATE,
+		LSDID, BDBID
+		from DCHY_LSPERSONAL
+		<where>
+			<if test="id != null and id != ''">
+				and ID = #{id}
+			</if>
+			<if test="lsname != null and lsname != ''">
+				and LSNAME = #{lsname}
+			</if>
+			<if test="lsidcard != null and lsidcard != ''">
+				and LSIDCARD = #{lsidcard}
+			</if>
+			<if test="lsphonenum != null and lsphonenum != ''">
+				and LSPHONENUM = #{lsphonenum}
+			</if>
+			<if test="lscreatetime != null">
+				and LSCREATETIME = #{lscreatetime}
+			</if>
+			<if test="lsinfor != null and lsinfor != ''">
+				and LSINFOR = #{lsinfor}
+			</if>
+			<if test="lsstate != null and lsstate != ''">
+				and LSSTATE = #{lsstate}
+			</if>
+			<if test="lsdid != null and lsdid != ''">
+				and LSDID = #{lsdid}
+			</if>
+			<if test="bgbid != null and bgbid != ''">
+				and BGBID = #{bgbid}
+			</if>
+		</where>
+	</select>
+
+	<!--新增所有列 -->
+	<insert id="insert"
+		parameterType="com.github.DchyService.entity.DchyLspersonal">
+		<selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into DCHY_LSPERSONAL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">ID,</if>
+			<if test="lsname !=null and lsname !=''">LSNAME,</if>
+			<if test="lsidcard !=null and lsidcard !=''">LSIDCARD,</if>
+			<if test="lsphonenum !=null and lsphonenum !=''">LSPHONENUM,</if>
+			<if test="lsinfor !=null and lsinfor !=''">LSINFOR,</if>
+			<if test="lsstate !=null and lsstate !=''">LSSTATE,</if>
+			<if test="lsdid !=null and lsdid !=''">LSDID,</if>
+			<if test="bgbid !=null and bgbid !=''">BGBID,</if>
+			<if test="lstype !=null and lstype !=''">LSTYPE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">#{id},</if>
+			<if test="lsname !=null and lsname !=''">#{lsname},</if>
+			<if test="lsidcard !=null and lsidcard !=''">#{lsidcard},</if>
+			<if test="lsphonenum !=null and lsphonenum !=''">#{lsphonenum},</if>
+			<if test="lsinfor !=null and lsinfor !=''">#{lsinfor},</if>
+			<if test="lsstate !=null and lsstate !=''">#{lsstate},</if>
+			<if test="lsdid !=null and lsdid !=''">#{lsdid},</if>
+			<if test="bgbid !=null and bgbid !=''">#{bgbid},</if>
+			<if test="lstype !=null and lstype !=''">#{lstype},</if>
+		</trim>
+	</insert>
+
+
+	<!--通过主键修改数据 -->
+	<update id="update"
+		parameterType="com.github.DchyService.entity.DchyLspersonal">
+		update DCHY_LSPERSONAL
+		<set>
+			<if test="lsname != null and lsname != ''">
+				LSNAME = #{lsname},
+			</if>
+			<if test="lsidcard != null and lsidcard != ''">
+				LSIDCARD = #{lsidcard},
+			</if>
+			<if test="lsphonenum != null and lsphonenum != ''">
+				LSPHONENUM = #{lsphonenum},
+			</if>
+			<if test="lspassword != null and lspassword != ''">
+				LSPASSWORD = #{lspassword},
+			</if>
+			<if test="lsinfor != null and lsinfor != ''">
+				LSINFOR = #{lsinfor},
+			</if>
+			<if test="lsstate != null and lsstate != ''">
+				LSSTATE = #{lsstate},
+			</if>
+			<if test="lsdid != null and lsdid != ''">
+				LSDID = #{lsdid},
+			</if>
+			<if test="bgbid != null and bgbid != ''">
+				BGBID = #{bgbid},
+			</if>
+			<if test="lstype != null and lstype != ''">
+				LSTYPE = #{lstype},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+</mapper>

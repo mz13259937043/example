@@ -1,0 +1,30 @@
+{
+  "name": "dchy2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "axios": "^0.21.0",
+    "core-js": "^3.6.5",
+    "element-ui": "^2.13.2",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "save": "^2.4.0",
+    "vue": "^2.6.11",
+    "vue-quill-editor": "^3.0.6",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.12.11",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "babel-plugin-component": "^1.1.1",
+    "vue-template-compiler": "^2.6.11"
+  }
+}

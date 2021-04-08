@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyLszzxxDao">
+
+	<resultMap type="com.github.DchyService.entity.DchyLszzxx"
+		id="DchyLszzxxMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="lsdid" column="LSDID" jdbcType="VARCHAR" />
+		<result property="lszsbh" column="LSZSBH" jdbcType="VARCHAR" />
+		<result property="lszsyxq" column="LSZSYXQ"
+			jdbcType="TIMESTAMP" />
+		<result property="lszzdj" column="LSZZDJ" jdbcType="VARCHAR" />
+		<result property="lsfzbm" column="LSFZBM" jdbcType="VARCHAR" />
+		<result property="lszzfj" column="LSZZFJ" jdbcType="VARCHAR" />
+		<result property="lsstate" column="LSSTATE" jdbcType="VARCHAR" />
+		<result property="lscjsj" column="LSCJSJ" jdbcType="TIMESTAMP" />
+		<result property="lsdchyywfw" column="LSDCHYYWFW"
+			jdbcType="VARCHAR" />
+		<result property="lsfjzd1" column="LSFJZD1" jdbcType="VARCHAR" />
+		<result property="lsfjzd2" column="LSFJZD2" jdbcType="VARCHAR" />
+		<result property="bgbid" column="BGBID" jdbcType="VARCHAR" />
+		<result property="lszyfw" column="LSZYFW" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--查询单个 -->
+	<select id="queryById" resultMap="DchyLszzxxMap">
+		select
+		ID, LSDID, LSZSBH,
+		LSZSYXQ, LSZZDJ, LSFZBM, LSZZFJ, LSSTATE, LSCJSJ,
+		LSDCHYYWFW, LSFJZD1,
+		LSFJZD2, BGBID, LSZYFW
+		from DCHY_LSZZXX
+		where ID = #{id}
+	</select>
+
+	<!--查询列表 -->
+	<select id="queryByDid" resultMap="DchyLszzxxMap">
+		select
+		ID, LSDID, LSZSBH,
+		LSZSYXQ, LSZZDJ, LSFZBM, LSZZFJ, LSSTATE, LSCJSJ,
+		LSDCHYYWFW,
+		LSFJZD1,LSSQSJ,LSTGSJ,
+		LSFJZD2, BGBID, LSZYFW
+		from DCHY_LSZZXX
+		where
+		LSDID = #{lsdid}
+	</select>
+
+	<!--查询列表 -->
+	<select id="queryByBgbid" resultMap="DchyLszzxxMap">
+		select
+		ID, LSDID, LSZSBH,
+		LSZSYXQ, LSZZDJ, LSFZBM, LSZZFJ, LSSTATE, LSCJSJ,
+		LSDCHYYWFW,
+		LSFJZD1,LSSQSJ,LSTGSJ,
+		LSFJZD2, BGBID, LSZYFW
+		from DCHY_LSZZXX
+		where
+		BGBID = #{bgbid}
+	</select>
+
+	<!--查询单个 -->
+	<select id="queryByDidAndState" resultMap="DchyLszzxxMap">
+		select
+		ID, LSDID,
+		LSZSBH, LSZSYXQ, LSZZDJ, LSFZBM, LSZZFJ, LSSTATE, LSCJSJ,
+		LSDCHYYWFW,LSSQSJ,LSTGSJ,
+		LSFJZD1, LSFJZD2, BGBID, LSZYFW
+		from
+		DCHY_LSZZXX
+		where LSDID = #{lsdid}
+		and
+		LSSTATE = #{lsstate}
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllByLimit" resultMap="DchyLszzxxMap">
+		select
+		ID, LSDID, LSZSBH,
+		LSZSYXQ, LSZZDJ, LSFZBM, LSZZFJ, LSSTATE, LSCJSJ,
+		LSDCHYYWFW,
+		LSFJZD1,LSSQSJ,LSTGSJ,
+		LSFJZD2, BGBID, LSZYFW
+		from DCHY_LSZZXX where
+		rownum &lt;=#{limit} and
+		rownum &gt;=#{offset}
+	</select>
+
+	<!--通过实体作为筛选条件查询 -->
+	<select id="queryAll" resultMap="DchyLszzxxMap">
+		select
+		ID, LSDID, LSZSBH, LSZSYXQ, LSZZDJ, LSFZBM, LSZZFJ, LSSTATE,
+		LSCJSJ,LSSQSJ,LSTGSJ,
+		LSDCHYYWFW, LSFJZD1, LSFJZD2, BGBID, LSZYFW
+		from
+		DCHY_LSZZXX
+		<where>
+			<if test="id != null and id != ''">
+				and ID = #{id}
+			</if>
+			<if test="lsdid != null and lsdid != ''">
+				and LSDID = #{lsdid}
+			</if>
+			<if test="lszsbh != null and lszsbh != ''">
+				and LSZSBH = #{lszsbh}
+			</if>
+			<if test="lszsyxq != null">
+				and LSZSYXQ = #{lszsyxq}
+			</if>
+			<if test="lszzdj != null and lszzdj != ''">
+				and LSZZDJ = #{lszzdj}
+			</if>
+			<if test="lsfzbm != null and lsfzbm != ''">
+				and LSFZBM = #{lsfzbm}
+			</if>
+			<if test="lszzfj != null and lszzfj != ''">
+				and LSZZFJ = #{lszzfj}
+			</if>
+			<if test="lsstate != null and lsstate != ''">
+				and LSSTATE = #{lsstate}
+			</if>
+			<if test="lscjsj != null">
+				and LSCJSJ = #{lscjsj}
+			</if>
+			<if test="lsdchyywfw != null and lsdchyywfw != ''">
+				and LSDCHYYWFW = #{lsdchyywfw}
+			</if>
+			<if test="lsfjzd1 != null and lsfjzd1 != ''">
+				and LSFJZD1 = #{lsfjzd1}
+			</if>
+			<if test="lsfjzd2 != null and lsfjzd2 != ''">
+				and LSFJZD2 = #{lsfjzd2}
+			</if>
+			<if test="bgbid != null and bgbid != ''">
+				and BGBID = #{bgbid}
+			</if>
+			<if test="lszyfw != null and lszyfw != ''">
+				and LSZYFW = #{lszyfw}
+			</if>
+		</where>
+	</select>
+
+	<!--新增所有列 -->
+	<insert id="insert"
+		parameterType="com.github.DchyService.entity.DchyLszzxx">
+		<selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into DCHY_LSZZXX
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">ID,</if>
+			<if test="lsdid !=null and lsdid !=''">LSDID,</if>
+			<if test="lszsbh !=null and lszsbh !=''">LSZSBH,</if>
+			<if test="lszsyxq !=null">LSZSYXQ,</if>
+			<if test="lszzdj !=null and lszzdj !=''">LSZZDJ,</if>
+			<if test="lsfzbm !=null and lsfzbm !=''">LSFZBM,</if>
+			<if test="lszzfj !=null and lszzfj !=''">LSZZFJ,</if>
+			<if test="lszyfw !=null and lszyfw !=''">LSZYFW,</if>
+			<if test="lsstate !=null and lsstate !=''">LSSTATE,</if>
+			<if test="bgbid !=null and bgbid !=''">BGBID,</if>
+			<if test="lssqsj !=null">LSSQSJ,</if>
+			<if test="lstgsj !=null">LSTGSJ,</if>
+			<if test="lscjsj !=null">LSCJSJ,</if>
+			<if test="lsdchyywfw !=null and lsdchyywfw !=''">LSDCHYYWFW,</if>
+			<if test="lsfjzd1 !=null and lsfjzd1 !=''">LSFJZD1,</if>
+			<if test="lsfjzd2 !=null and lsfjzd2 !=''">LSFJZD2,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">#{id},</if>
+			<if test="lsdid !=null and lsdid !=''">#{lsdid},</if>
+			<if test="lszsbh !=null and lszsbh !=''">#{lszsbh},</if>
+			<if test="lszsyxq !=null">#{lszsyxq,jdbcType=DATE},</if>
+			<if test="lszzdj !=null and lszzdj !=''">#{lszzdj},</if>
+			<if test="lsfzbm !=null and lsfzbm !=''">#{lsfzbm},</if>
+			<if test="lszzfj !=null and lszzfj !=''">#{lszzfj},</if>
+			<if test="lszyfw !=null and lszyfw !=''">#{lszyfw},</if>
+			<if test="lsstate !=null and lsstate !=''">#{lsstate},</if>
+			<if test="bgbid !=null and bgbid !=''">#{bgbid},</if>
+			<if test="lssqsj !=null">#{lssqsj,jdbcType=DATE},</if>
+			<if test="lstgsj !=null">#{lstgsj,jdbcType=DATE},</if>
+			<if test="lscjsj !=null">#{lscjsj,jdbcType=DATE},</if>
+			<if test="lsdchyywfw !=null and lsdchyywfw !=''">#{lsdchyywfw},</if>
+			<if test="lsfjzd1 !=null and lsfjzd1 !=''">#{lsfjzd1},</if>
+			<if test="lsfjzd2 !=null and lsfjzd2 !=''">#{lsfjzd2},</if>
+		</trim>
+	</insert>
+
+	<!--通过主键修改数据 -->
+	<update id="update">
+		update DCHY_LSZZXX
+		<set>
+			<if test="lsdid != null and lsdid != ''">
+				LSDID = #{lsdid},
+			</if>
+			<if test="lszsbh != null and lszsbh != ''">
+				LSZSBH = #{lszsbh},
+			</if>
+			<if test="lszsyxq != null">
+				LSZSYXQ = #{lszsyxq,jdbcType=DATE},
+			</if>
+			<if test="lszzdj != null and lszzdj != ''">
+				LSZZDJ = #{lszzdj},
+			</if>
+			<if test="lsfzbm != null and lsfzbm != ''">
+				LSFZBM = #{lsfzbm},
+			</if>
+			<if test="lszzfj != null and lszzfj != ''">
+				LSZZFJ = #{lszzfj},
+			</if>
+			<if test="lsstate != null and lsstate != ''">
+				LSSTATE = #{lsstate},
+			</if>
+			<if test="lssqsj !=null">LSSQSJ=#{lssqsj,jdbcType=DATE},</if>
+			<if test="lstgsj !=null">LSTGSJ#{lstgsj,jdbcType=DATE},</if>
+			<if test="lscjsj != null">
+				LSCJSJ = #{lscjsj,jdbcType=DATE},
+			</if>
+			<if test="lsdchyywfw != null and lsdchyywfw != ''">
+				LSDCHYYWFW = #{lsdchyywfw},
+			</if>
+			<if test="lsfjzd1 != null and lsfjzd1 != ''">
+				LSFJZD1 = #{lsfjzd1},
+			</if>
+			<if test="lsfjzd2 != null and lsfjzd2 != ''">
+				LSFJZD2 = #{lsfjzd2},
+			</if>
+			<if test="bgbid != null and bgbid != ''">
+				BGBID = #{bgbid},
+			</if>
+			<if test="lszyfw != null and lszyfw != ''">
+				LSZYFW = #{lszyfw},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+</mapper>

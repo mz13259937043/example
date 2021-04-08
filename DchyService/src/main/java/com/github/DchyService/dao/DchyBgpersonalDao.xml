@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyBgpersonalDao">
+
+	<resultMap
+		type="com.github.DchyService.entity.DchyBgpersonal"
+		id="DchyBgpersonalMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="bgname" column="BGNAME" jdbcType="VARCHAR" />
+		<result property="bgidcard" column="BGIDCARD"
+			jdbcType="VARCHAR" />
+		<result property="bgphonenum" column="BGPHONENUM"
+			jdbcType="VARCHAR" />
+		<result property="bgpassword" column="BGPASSWORD"
+			jdbcType="VARCHAR" />
+		<result property="bgcreatetime" column="BGCREATETIME"
+			jdbcType="TIMESTAMP" />
+		<result property="bginfor" column="BGINFOR" jdbcType="VARCHAR" />
+		<result property="logid" column="LOGID" jdbcType="VARCHAR" />
+		<result property="bgstate" column="BGSTATE" jdbcType="VARCHAR" />
+		<result property="bgdid" column="BGDID" jdbcType="VARCHAR" />
+		<result property="bgtype" column="BGTYPE" jdbcType="VARCHAR" />
+		<result property="bgbid" column="BGBID" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--查询单个 -->
+	<select id="queryById" resultMap="DchyBgpersonalMap">
+		select
+		ID, BGNAME,
+		BGIDCARD,BGTYPE,
+		BGPHONENUM, BGCREATETIME, BGINFOR,
+		LOGID, BGSTATE,
+		BGDID,BGBID,ROLEID
+		from
+		DCHY_BGPERSONAL
+		where ID = #{id}
+	</select>
+
+	<!--查询单个 -->
+	<select id="queryByIdcard" resultMap="DchyBgpersonalMap">
+		select
+		ID, BGNAME,
+		BGIDCARD,BGTYPE,
+		BGPHONENUM, BGCREATETIME, BGINFOR,
+		LOGID, BGSTATE,
+		BGDID,BGBID,ROLEID
+		from
+		DCHY_BGPERSONAL
+		where BGIDCARD = #{bgidcard}
+	</select>
+
+	<!--查询单个 -->
+	<select id="queryByPhone" resultMap="DchyBgpersonalMap">
+		select
+		ID, BGNAME,
+		BGIDCARD,BGTYPE,
+		BGPHONENUM, BGCREATETIME, BGINFOR,
+		LOGID, BGSTATE,
+		BGDID,BGBID,ROLEID
+		from
+		DCHY_BGPERSONAL
+		where BGPHONENUM = #{bgphonenum}
+	</select>
+	<!--查询单个 -->
+	<select id="queryByDidAndState" resultMap="DchyBgpersonalMap">
+		select
+		ID,
+		BGNAME,BGTYPE,
+		BGIDCARD, BGPHONENUM, BGCREATETIME, BGINFOR,
+		LOGID,
+		BGSTATE,
+		BGDID,ROLEID,BGBID
+		from
+		DCHY_BGPERSONAL
+		where BGDID = #{bgdid}
+		and
+		BGSTATE=
+		#{bgstate}
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllByLimit" resultMap="DchyBgpersonalMap">
+		select
+		ID, BGNAME,BGTYPE,
+		BGIDCARD, BGPHONENUM, BGCREATETIME, BGINFOR,
+		LOGID,
+		BGSTATE,BGBID,
+		BGDID,ROLEID
+		from DCHY_BGPERSONAL
+		where rownum
+		&lt;=#{limit} and
+		rownum
+		&gt;=#{offset}
+	</select>
+
+	<!--通过实体作为筛选条件查询 -->
+	<select id="queryAll" resultMap="DchyBgpersonalMap">
+		select
+		ID,BGTYPE, BGNAME, BGIDCARD, BGPHONENUM, BGCREATETIME,
+		BGINFOR,BGBID,
+		LOGID, BGSTATE, BGDID,ROLEID
+		from DCHY_BGPERSONAL
+		<where>
+			<if test="id != null and id != ''">
+				and ID = #{id}
+			</if>
+			<if test="bgtype != null and bgtype != ''">
+				and BGTYPE = #{bgtype}
+			</if>
+			<if test="bgname != null and bgname != ''">
+				and BGNAME = #{bgname}
+			</if>
+			<if test="bgidcard != null and bgidcard != ''">
+				and BGIDCARD = #{bgidcard}
+			</if>
+			<if test="bgphonenum != null and bgphonenum != ''">
+				and BGPHONENUM = #{bgphonenum}
+			</if>
+			<if test="bgcreatetime != null">
+				and BGCREATETIME = #{bgcreatetime}
+			</if>
+			<if test="bginfor != null and bginfor != ''">
+				and BGINFOR = #{bginfor}
+			</if>
+			<if test="bibid != null and bibid != ''">
+				and BIBID = #{bibid}
+			</if>
+			<if test="logid!= null and logid != ''">
+				and LOGID = #{logid}
+			</if>
+			<if test="bgstate != null and bgstate != ''">
+				and BGSTATE = #{bgstate}
+			</if>
+			<if test="bgdid != null and bgdid != ''">
+				and BGDID = #{bgdid}
+			</if>
+			<if test="roleid != null and roleid != ''">
+				and ROLEID = #{roleid}
+			</if>
+		</where>
+	</select>
+
+	<!--新增所有列 -->
+	<insert id="insert"
+		parameterType="com.github.DchyService.entity.DchyBgpersonal">
+		<selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert
+		into DCHY_BGPERSONAL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">ID,</if>
+			<if test="bgname !=null and bgname !=''">BGNAME,</if>
+			<if test="bgidcard !=null and bgidcard !=''">BGIDCARD,</if>
+			<if test="bgphonenum !=null and bgphonenum !=''">BGPHONENUM,</if>
+			<if test="bginfor !=null and bginfor !=''">BGINFOR,</if>
+			<if test="logid !=null and logid !=''">LOGID,</if>
+			<if test="bgdid !=null and bgdid !=''">BGDID,</if>
+			<if test="bgbid !=null and bgbid !=''">BGBID,</if>
+			<if test="bgtype !=null and bgtype !=''">BGTYPE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">#{id},</if>
+			<if test="bgname !=null and bgname !=''">#{bgname},</if>
+			<if test="bgidcard !=null and bgidcard !=''">#{bgidcard},</if>
+			<if test="bgphonenum !=null and bgphonenum !=''">#{bgphonenum},</if>
+			<if test="bginfor !=null and bginfor !=''">#{bginfor},</if>
+			<if test="logid !=null and logid !=''">#{logid},</if>
+			<if test="bgdid !=null and bgdid !=''">#{bgdid},</if>
+			<if test="bgbid !=null and bgbid !=''">#{bgbid},</if>
+			<if test="bgtype !=null and bgtype !=''">#{bgtype},</if>
+		</trim>
+	</insert>
+
+	<!--通过主键修改数据 -->
+	<update id="update"
+		parameterType="com.github.DchyService.entity.DchyBgpersonal">
+		update DCHY_BGPERSONAL
+		<set>
+			<if test="bgname != null and bgname != ''">
+				BGNAME = #{bgname},
+			</if>
+			<if test="bgidcard != null and bgidcard != ''">
+				BGIDCARD = #{bgidcard},
+			</if>
+			<if test="bgphonenum != null and bgphonenum != ''">
+				BGPHONENUM = #{bgphonenum},
+			</if>
+			<if test="bgpassword != null and bgpassword != ''">
+				BGPASSWORD = #{bgpassword},
+			</if>
+			<if test="bginfor != null and bginfor != ''">
+				BGINFOR = #{bginfor},
+			</if>
+			<if test="logid != null and logid != ''">
+				LOGID = #{logid},
+			</if>
+			<if test="bgstate != null and bgstate != ''">
+				BGSTATE = #{bgstate},
+			</if>
+			<if test="bgdid != null and bgdid != ''">
+				BGDID = #{bgdid},
+			</if>
+			<if test="bgbid != null and bgbid != ''">
+				and BGBID = #{bgbid}
+			</if>
+			<if test="roleid != null and roleid != ''">
+				and ROLEID = #{roleid}
+			</if>
+			<if test="bgtype != null and bgtype != ''">
+				and BGTYPE = #{bgtype}
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+	<!--通过主键删除 -->
+	<delete id="deleteById">
+		delete DCHY_BGPERSONAL where ID = #{id}
+	</delete>
+
+	<!--通过企业主键删除 -->
+	<delete id="deleteByDid">
+		delete DCHY_BGPERSONAL where BGDID = #{bgdid}
+	</delete>
+
+
+</mapper>

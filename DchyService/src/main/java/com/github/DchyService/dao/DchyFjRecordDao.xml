@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyFjRecordDao">
+
+    <resultMap type="com.github.DchyService.entity.DchyFjRecord" id="DchyFjRecordMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="filename" column="FILENAME" jdbcType="VARCHAR"/>
+        <result property="filesize" column="FILESIZE" jdbcType="VARCHAR"/>
+        <result property="filepath" column="FILEPATH" jdbcType="VARCHAR"/>
+        <result property="folderid" column="FOLDERID" jdbcType="VARCHAR"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="userid" column="USERID" jdbcType="VARCHAR"/>
+        <result property="creattime" column="CREATTIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="addFjRecord" >
+        insert into DCHY_FJ_RECORD(ID, FILENAME, FILESIZE, FILEPATH, FOLDERID, USERNAME, USERID, CREATTIME)
+        values (#{id}, #{filename}, #{filesize}, #{filepath}, #{folderid}, #{username}, #{userid}, #{creattime})
+    </insert>
+
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DchyFjRecordMap">
+        select
+          ID, FILENAME, FILESIZE, FILEPATH, FOLDERID, USERNAME, USERID, CREATTIME
+        from DCHY_FJ_RECORD
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DchyFjRecordMap">
+        select
+          ID, FILENAME, FILESIZE, FILEPATH, FOLDERID, USERNAME, USERID, CREATTIME
+        from DCHY_FJ_RECORD
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DchyFjRecordMap">
+        select
+        ID, FILENAME, FILESIZE, FILEPATH, FOLDERID, USERNAME, USERID, CREATTIME
+        from DCHY_FJ_RECORD
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="filename != null and filename != ''">
+                and FILENAME = #{filename}
+            </if>
+            <if test="filesize != null and filesize != ''">
+                and FILESIZE = #{filesize}
+            </if>
+            <if test="filepath != null and filepath != ''">
+                and FILEPATH = #{filepath}
+            </if>
+            <if test="folderid != null and folderid != ''">
+                and FOLDERID = #{folderid}
+            </if>
+            <if test="username != null and username != ''">
+                and USERNAME = #{username}
+            </if>
+            <if test="userid != null and userid != ''">
+                and USERID = #{userid}
+            </if>
+            <if test="creattime != null">
+                and CREATTIME = #{creattime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into DCHY_FJ_RECORD(ID, FILENAME, FILESIZE, FILEPATH, FOLDERID, USERNAME, USERID, CREATTIME)
+        values (#{id}, #{filename}, #{filesize}, #{filepath}, #{folderid}, #{username}, #{userid}, #{creattime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
+        insert into DCHY_FJ_RECORD(ID, FILENAME, FILESIZE, FILEPATH, FOLDERID, USERNAME, USERID, CREATTIME)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.filename}, #{entity.filesize}, #{entity.filepath}, #{entity.folderid},
+            #{entity.username}, #{entity.userid}, #{entity.creattime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
+        insert into DCHY_FJ_RECORD(ID, FILENAME, FILESIZE, FILEPATH, FOLDERID, USERNAME, USERID, CREATTIME)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.filename}, #{entity.filesize}, #{entity.filepath}, #{entity.folderid},
+            #{entity.username}, #{entity.userid}, #{entity.creattime})
+        </foreach>
+        on duplicate key update
+        ID = values(ID) , FILENAME = values(FILENAME) , FILESIZE = values(FILESIZE) , FILEPATH = values(FILEPATH) ,
+        FOLDERID = values(FOLDERID) , USERNAME = values(USERNAME) , USERID = values(USERID) , CREATTIME =
+        values(CREATTIME)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update DCHY_FJ_RECORD
+        <set>
+            <if test="id != null and id != ''">
+                ID = #{id},
+            </if>
+            <if test="filename != null and filename != ''">
+                FILENAME = #{filename},
+            </if>
+            <if test="filesize != null and filesize != ''">
+                FILESIZE = #{filesize},
+            </if>
+            <if test="filepath != null and filepath != ''">
+                FILEPATH = #{filepath},
+            </if>
+            <if test="folderid != null and folderid != ''">
+                FOLDERID = #{folderid},
+            </if>
+            <if test="username != null and username != ''">
+                USERNAME = #{username},
+            </if>
+            <if test="userid != null and userid != ''">
+                USERID = #{userid},
+            </if>
+            <if test="creattime != null">
+                CREATTIME = #{creattime},
+            </if>
+        </set>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from DCHY_FJ_RECORD
+    </delete>
+
+</mapper>

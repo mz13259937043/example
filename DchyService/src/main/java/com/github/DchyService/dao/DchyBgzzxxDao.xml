@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyBgzzxxDao">
+
+	<resultMap type="com.github.DchyService.entity.DchyBgzzxx"
+		id="DchyBgzzxxMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="bgdid" column="BGDID" jdbcType="VARCHAR" />
+		<result property="bgzsbh" column="BGZSBH" jdbcType="VARCHAR" />
+		<result property="bgzsyxq" column="BGZSYXQ"
+			jdbcType="TIMESTAMP" />
+		<result property="bgzzdj" column="BGZZDJ" jdbcType="VARCHAR" />
+		<result property="bgfzbm" column="BGFZBM" jdbcType="VARCHAR" />
+		<result property="bgzzfj" column="BGZZFJ" jdbcType="VARCHAR" />
+		<result property="bgstate" column="BGSTATE" jdbcType="VARCHAR" />
+		<result property="bgsqsj" column="BGSQSJ" jdbcType="TIMESTAMP" />
+		<result property="bgtgsj" column="BGTGSJ" jdbcType="TIMESTAMP" />
+		<result property="bgcjsj" column="BGCJSJ" jdbcType="TIMESTAMP" />
+		<result property="bgdchyywfw" column="BGDCHYYWFW"
+			jdbcType="VARCHAR" />
+		<result property="bgfjzd1" column="BGFJZD1" jdbcType="VARCHAR" />
+		<result property="bgfjzd2" column="BGFJZD2" jdbcType="VARCHAR" />
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="bgzyfw" column="BGZYFW" jdbcType="VARCHAR" />
+		<result property="logid" column="LOGID" jdbcType="VARCHAR" />
+		<result property="bgzzshbm" column="BGZZSHBM"
+			jdbcType="VARCHAR" />
+		<result property="bgbid" column="BGBID" jdbcType="VARCHAR" />
+		<result property="bgwtgyy" column="BGWTGYY" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="com.github.DchyService.VO.BgZzxxVO"
+		id="DchyBgZzxxVOMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="bgdid" column="BGDID" jdbcType="VARCHAR" />
+		<result property="bgzsbh" column="BGZSBH" jdbcType="VARCHAR" />
+		<result property="bgzsyxq" column="BGZSYXQ"
+			jdbcType="TIMESTAMP" />
+		<result property="bgzzdj" column="BGZZDJ" jdbcType="VARCHAR" />
+		<result property="bgfzbm" column="BGFZBM" jdbcType="VARCHAR" />
+		<result property="bgzzfj" column="BGZZFJ" jdbcType="VARCHAR" />
+		<result property="bgstate" column="BGSTATE" jdbcType="VARCHAR" />
+		<result property="bgcjsj" column="BGCJSJ" jdbcType="TIMESTAMP" />
+		<result property="bgdchyywfw" column="BGDCHYYWFW"
+			jdbcType="VARCHAR" />
+		<result property="bgbid" column="BGBID" jdbcType="VARCHAR" />
+		<result property="bgfjzd1" column="BGFJZD1" jdbcType="VARCHAR" />
+		<result property="bgfjzd2" column="BGFJZD2" jdbcType="VARCHAR" />
+		<result property="bgzzshbm" column="BGZZSHBM"
+			jdbcType="VARCHAR" />
+		<result property="bgzyfw" column="BGZYFW" jdbcType="VARCHAR" />
+		<result property="logid" column="LOGID" jdbcType="VARCHAR" />
+		<result property="LICENSE_NO" column="LICENSE_NO"
+			jdbcType="VARCHAR" />
+		<result property="UNIT_NAME" column="UNIT_NAME"
+			jdbcType="VARCHAR" />
+		<result property="UNIT_TYPE" column="UNIT_TYPE"
+			jdbcType="VARCHAR" />
+		<result property="UNIT_ADDRESS" column="UNIT_ADDRESS"
+			jdbcType="VARCHAR" />
+		<result property="BUSI_ARRANGE" column="BUSI_ARRANGE"
+			jdbcType="VARCHAR" />
+		<result property="LEGAL_NAME" column="LEGAL_NAME"
+			jdbcType="VARCHAR" />
+		<result property="LEGAL_ID_NUMBER" column="LEGAL_ID_NUMBER"
+			jdbcType="VARCHAR" />
+		<result property="LINK_PHONE" column="LINK_PHONE"
+			jdbcType="VARCHAR" />
+		<result property="REGISTERED_CAPITAL"
+			column="REGISTERED_CAPITAL" jdbcType="VARCHAR" />
+		<result property="INDUSTRY_TYPE_NAME"
+			column="INDUSTRY_TYPE_NAME" jdbcType="VARCHAR" />
+		<result property="OPERATING_PERIOD" column="OPERATING_PERIOD"
+			jdbcType="VARCHAR" />
+		<result property="BUSINESS_LICENSE" column="BUSINESS_LICENSE"
+			jdbcType="VARCHAR" />
+		<result property="COMPANY_STATE" column="COMPANY_STATE"
+			jdbcType="VARCHAR" />
+		<result property="LINK_PHONE" column="LINK_PHONE"
+			jdbcType="VARCHAR" />
+		<result property="LINK_MAN" column="LINK_MAN"
+			jdbcType="VARCHAR" />
+		<result property="PHONE" column="PHONE" jdbcType="VARCHAR" />
+		<result property="bgwtgyy" column="BGWTGYY" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- <sql id="Base_Column_List"> DCHY_BGZZXX.ID,DCHY_BGZZXX.BGDID,DCHY_BGZZXX.BGZSBH,DCHY_BGZZXX.BGZSBH,DCHY_BGZZXX.BGZSYXQ,DCHY_BGZZXX.BGZZDJ, 
+		DCHY_BGZZXX.BGFZBM,DCHY_BGZZXX.BGZZFJ,DCHY_BGZZXX.BGSTATE,DCHY_BGZZXX.BGCJSJ,DCHY_BGZZXX.BGSTATE,DCHY_BGZZXX.BGDCHYYWFW, 
+		DCHY_BGZZXX.BGBID,DCHY_BGZZXX.BGFJZD1,DCHY_BGZZXX.BGFJZD2,DCHY_BGZZXX.BGZYFW,DCHY_BGZZXX.LOGID, 
+		DCHY_COMPANY.LICENSE_NO,DCHY_COMPANY.UNIT_NAME,DCHY_COMPANY.UNIT_TYPE,DCHY_COMPANY.UNIT_ADDRESS,DCHY_COMPANY.BUSI_ARRANGE, 
+		DCHY_COMPANY.LEGAL_NAME,DCHY_COMPANY.LEGAL_ID_NUMBER,DCHY_COMPANY.LINK_PHONE,DCHY_COMPANY.REGISTERED_CAPITAL, 
+		DCHY_COMPANY.OPERATING_PERIOD,DCHY_COMPANY.BUSINESS_LICENSE,DCHY_COMPANY.COMPANY_STATE,DCHY_COMPANY.LINK_PHONE,DCHY_COMPANY.LINK_MAN,PHONE 
+		</sql> -->
+
+	<!--查询单个 -->
+	<select id="queryById" resultMap="DchyBgZzxxVOMap">
+		select * from DCHY_BGZZXX z
+		left join
+		DCHY_COMPANY c on z.bgdid=c.id
+		where
+		ID
+		= #{id}
+	</select>
+
+	<!--查询单个 -->
+	<select id="queryByDid" resultMap="DchyBgZzxxVOMap">
+		select * from DCHY_BGZZXX z
+		left join
+		DCHY_COMPANY c on z.bgdid=c.id
+		where
+		BGDID =
+		#{bgdid}
+	</select>
+	<!-- <include refid="Base_Column_List" /> -->
+	<!--查询单个 -->
+	<select id="queryByState" resultMap="DchyBgZzxxVOMap">
+		select * from DCHY_BGZZXX z
+		left join
+		DCHY_COMPANY c on z.bgdid=c.id
+		where
+		BGSTATE = #{bgstate} 
+		order by BGSQSJ desc
+	</select>
+
+	<!--查询单个 -->
+	<select id="queryByDidAndState" resultMap="DchyBgZzxxVOMap">
+		select * from
+		DCHY_BGZZXX z
+		LEFT JOIN
+		DCHY_COMPANY c ON z.bgdid=c.id
+		where
+		BGDID =
+		#{bgdid} and BGSTATE = #{bgstate}
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllByLimit" resultMap="DchyBgZzxxVOMap">
+		select *
+		from DCHY_BGZZXX
+		z
+		left join
+		DCHY_COMPANY c on z.bgdid=c.id
+		where
+		rownum
+		&lt;= #{limit} and
+		rownum &gt;= #{offset}
+	</select>
+
+	<!--通过实体作为筛选条件查询 -->
+	<select id="queryAll" resultMap="DchyBgZzxxVOMap">
+		select *
+		from
+		DCHY_BGZZXX z
+		left join
+		DCHY_COMPANY c on z.bgdid=c.id
+		<where>
+			<if test="bgdid != null and bgdid != ''">
+				and BGDID = #{bgdid}
+			</if>
+			<if test="bgzsbh != null and bgzsbh != ''">
+				and BGZSBH = #{bgzsbh}
+			</if>
+			<if test="bgzsyxq != null">
+				and BGZSYXQ = #{bgzsyxq}
+			</if>
+			<if test="bgzzdj != null and bgzzdj != ''">
+				and BGZZDJ = #{bgzzdj}
+			</if>
+			<if test="bgfzbm != null and bgfzbm != ''">
+				and BGFZBM = #{bgfzbm}
+			</if>
+			<if test="bgzzfj != null and bgzzfj != ''">
+				and BGZZFJ = #{bgzzfj}
+			</if>
+			<if test="bgstate != null and bgstate != ''">
+				and BGSTATE = #{bgstate}
+			</if>
+			<if test="bgsqsj != null">
+				and BGSQSJ = #{bgsqsj,jdbcType=TIMESTAMP}
+			</if>
+			<if test="bgdchyywfw != null and bgdchyywfw != ''">
+				and BGDCHYYWFW = #{bgdchyywfw}
+			</if>
+			<if test="bgfjzd1 != null and bgfjzd1 != ''">
+				and BGFJZD1 = #{bgfjzd1}
+			</if>
+			<if test="bgfjzd2 != null and bgfjzd2 != ''">
+				and BGFJZD2 = #{bgfjzd2}
+			</if>
+			<if test="id != null and id != ''">
+				and ID = #{id}
+			</if>
+			<if test="bgzyfw != null and bgzyfw != ''">
+				and BGZYFW = #{bgzyfw}
+			</if>
+			<if test="bgbid != null and bgbid != ''">
+				and BGBID = #{bgbid}
+			</if>
+			<if test=" logid!= null and logid != ''">
+				and LOGID = #{logid}
+			</if>
+		</where>
+	</select>
+
+	<!--新增所有列 -->
+	<insert id="insert"
+		parameterType="com.github.DchyService.entity.DchyBgzzxx">
+		<selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into DCHY_BGZZXX
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">ID,</if>
+			<if test="bgdid !=null and bgdid !=''">BGDID,</if>
+			<if test="bgzsbh !=null and bgzsbh !=''">BGZSBH,</if>
+			<if test="bgzsyxq !=null">BGZSYXQ,</if>
+			<if test="bgzzdj !=null and bgzzdj !=''">BGZZDJ,</if>
+			<if test="bgfzbm !=null and bgfzbm !=''">BGFZBM,</if>
+			<if test="bgzzfj !=null and bgzzfj !=''">BGZZFJ,</if>
+			<if test="bgzyfw !=null and bgzyfw !=''">BGZYFW,</if>
+			<if test="bgstate !=null and bgstate !=''">BGSTATE,</if>
+			<if test="bgbid !=null and bgbid !=''">BGBID,</if>
+			<if test="bgsqsj !=null">BGSQSJ,</if>
+			<if test="bgdchyywfw !=null and bgdchyywfw !=''">BGDCHYYWFW,</if>
+			<if test="bgfjzd1 !=null and bgfjzd1 !=''">BGFJZD1,</if>
+			<if test="bgfjzd2 !=null and bgfjzd2 !=''">BGFJZD2,</if>
+			<if test="logid !=null and logid !=''">LOGID,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">#{id},</if>
+			<if test="bgdid !=null and bgdid !=''">#{bgdid},</if>
+			<if test="bgzsbh !=null and bgzsbh !=''">#{bgzsbh},</if>
+			<if test="bgzsyxq !=null">#{bgzsyxq,jdbcType=DATE},</if>
+			<if test="bgzzdj !=null and bgzzdj !=''">#{bgzzdj},</if>
+			<if test="bgfzbm !=null and bgfzbm !=''">#{bgfzbm},</if>
+			<if test="bgzzfj !=null and bgzzfj !=''">#{bgzzfj},</if>
+			<if test="bgzyfw !=null and bgzyfw !=''">#{bgzyfw},</if>
+			<if test="bgstate !=null and bgstate !=''">#{bgstate},</if>
+			<if test="bgbid !=null and bgbid !=''">#{bgbid},</if>
+			<if test="bgsqsj !=null">#{bgsqsj,jdbcType=DATE},</if>
+			<if test="bgdchyywfw !=null and bgdchyywfw !=''">#{bgdchyywfw},</if>
+			<if test="bgfjzd1 !=null and bgfjzd1 !=''">#{bgfjzd1},</if>
+			<if test="bgfjzd2 !=null and bgfjzd2 !=''">#{bgfjzd2},</if>
+			<if test="logid !=null and logid !=''">#{logid},</if>
+		</trim>
+	</insert>
+
+	<!--通过主键修改数据 -->
+	<update id="update"
+		parameterType="com.github.DchyService.entity.DchyBgzzxx">
+		update DCHY_BGZZXX
+		<set>
+			<if test="bgdid != null and bgdid != ''">
+				BGDID = #{bgdid},
+			</if>
+			<if test="bgzsbh != null and bgzsbh != ''">
+				BGZSBH = #{bgzsbh},
+			</if>
+			<if test="bgzsyxq != null">
+				BGZSYXQ = #{bgzsyxq,jdbcType=DATE},
+			</if>
+			<if test="bgzzdj != null and bgzzdj != ''">
+				BGZZDJ = #{bgzzdj},
+			</if>
+			<if test="bgfzbm != null and bgfzbm != ''">
+				BGFZBM = #{bgfzbm},
+			</if>
+			<if test="bgzzfj != null and bgzzfj != ''">
+				BGZZFJ = #{bgzzfj},
+			</if>
+			<if test="bgstate != null and bgstate != ''">
+				BGSTATE = #{bgstate},
+			</if>
+			<if test="bgdchyywfw != null and bgdchyywfw != ''">
+				BGDCHYYWFW = #{bgdchyywfw},
+			</if>
+			<if test="bgfjzd1 != null and bgfjzd1 != ''">
+				BGFJZD1 = #{bgfjzd1},
+			</if>
+			<if test="bgfjzd2 != null and bgfjzd2 != ''">
+				BGFJZD2 = #{bgfjzd2},
+			</if>
+			<if test="bgzyfw != null and bgzyfw != ''">
+				BGZYFW = #{bgzyfw},
+			</if>
+			<if test="logid != null and logid != ''">
+				LOGID = #{logid},
+			</if>
+			<if test="bgwtgyy != null and bgwtgyy != ''">
+				BGWTGYY = #{bgwtgyy},
+			</if>
+			<if test="bgwtgyy ==null">
+				BGWTGYY = null,
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+	<!--通过企业主键删除 -->
+	<delete id="deleteByDid">
+		delete from DCHY_BGZZXX where BGDID =
+		#{bgdid,jdbcType=VARCHAR}
+	</delete>
+
+</mapper>

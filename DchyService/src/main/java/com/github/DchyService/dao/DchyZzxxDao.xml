@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyZzxxDao">
+
+	<resultMap type="com.github.DchyService.entity.DchyZzxx"
+		id="DchyZzxxMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="did" column="DID" jdbcType="VARCHAR" />
+		<result property="zsbh" column="ZSBH" jdbcType="VARCHAR" />
+		<result property="zsyxq" column="ZSYXQ" jdbcType="TIMESTAMP" />
+		<result property="zzdj" column="ZZDJ" jdbcType="VARCHAR" />
+		<result property="fzbm" column="FZBM" jdbcType="VARCHAR" />
+		<result property="zzfj" column="ZZFJ" jdbcType="VARCHAR" />
+		<result property="state" column="STATE" jdbcType="VARCHAR" />
+		<result property="cjsj" column="CJSJ" jdbcType="TIMESTAMP" />
+		<result property="dchyywfw" column="DCHYYWFW"
+			jdbcType="VARCHAR" />
+		<result property="fjzd1" column="FJZD1" jdbcType="VARCHAR" />
+		<result property="fjzd2" column="FJZD2" jdbcType="VARCHAR" />
+		<result property="zyfw" column="ZYFW" jdbcType="VARCHAR" />
+		<result property="zzshbm" column="ZZSHBM" jdbcType="VARCHAR" />
+		<result property="djsj" column="DJSJ" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap type="com.github.DchyService.VO.ZzxxVO"
+		id="DchyZzxxVOMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="did" column="DID" jdbcType="VARCHAR" />
+		<result property="zsbh" column="ZSBH" jdbcType="VARCHAR" />
+		<result property="zsyxq" column="ZSYXQ" jdbcType="TIMESTAMP" />
+		<result property="zzdj" column="ZZDJ" jdbcType="VARCHAR" />
+		<result property="fzbm" column="FZBM" jdbcType="VARCHAR" />
+		<result property="zzfj" column="ZZFJ" jdbcType="VARCHAR" />
+		<result property="state" column="STATE" jdbcType="VARCHAR" />
+		<result property="cjsj" column="CJSJ" jdbcType="TIMESTAMP" />
+		<result property="djsj" column="DJSJ" jdbcType="TIMESTAMP" />
+		<result property="dchyywfw" column="DCHYYWFW"
+			jdbcType="VARCHAR" />
+		<result property="fjzd1" column="FJZD1" jdbcType="VARCHAR" />
+		<result property="fjzd2" column="FJZD2" jdbcType="VARCHAR" />
+		<result property="zyfw" column="ZYFW" jdbcType="VARCHAR" />
+		<result property="LICENSE_NO" column="LICENSE_NO"
+			jdbcType="VARCHAR" />
+		<result property="UNIT_NAME" column="UNIT_NAME"
+			jdbcType="VARCHAR" />
+		<result property="UNIT_TYPE" column="UNIT_TYPE"
+			jdbcType="VARCHAR" />
+		<result property="UNIT_ADDRESS" column="UNIT_ADDRESS"
+			jdbcType="VARCHAR" />
+		<result property="BUSI_ARRANGE" column="BUSI_ARRANGE"
+			jdbcType="VARCHAR" />
+		<result property="LEGAL_NAME" column="LEGAL_NAME"
+			jdbcType="VARCHAR" />
+		<result property="LEGAL_ID_NUMBER" column="LEGAL_ID_NUMBER"
+			jdbcType="VARCHAR" />
+		<result property="LINK_PHONE" column="LINK_PHONE"
+			jdbcType="VARCHAR" />
+		<result property="REGISTERED_CAPITAL"
+			column="REGISTERED_CAPITAL" jdbcType="VARCHAR" />
+		<result property="INDUSTRY_TYPE_NAME"
+			column="INDUSTRY_TYPE_NAME" jdbcType="VARCHAR" />
+		<result property="OPERATING_PERIOD" column="OPERATING_PERIOD"
+			jdbcType="VARCHAR" />
+		<result property="BUSINESS_LICENSE" column="BUSINESS_LICENSE"
+			jdbcType="VARCHAR" />
+		<result property="COMPANY_STATE" column="COMPANY_STATE"
+			jdbcType="VARCHAR" />
+		<result property="LINK_PHONE" column="LINK_PHONE"
+			jdbcType="VARCHAR" />
+		<result property="LINK_MAN" column="LINK_MAN"
+			jdbcType="VARCHAR" />
+		<result property="PHONE" column="PHONE" jdbcType="VARCHAR" />
+		<result property="zzshbm" column="ZZSHBM" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--查询单个 -->
+	<select id="queryById" resultMap="DchyZzxxMap">
+		select
+		ID, DID, ZSBH, ZSYXQ,
+		ZZDJ, FZBM, ZZFJ, STATE, CJSJ, DCHYYWFW, FJZD1,
+		FJZD2, ZYFW,ZZSHBM
+		from
+		DCHY_ZZXX
+		where ID = #{id}
+	</select>
+
+	<!--查询单个 -->
+	<select id="queryByDid" resultMap="DchyZzxxMap">
+		select
+		ID, DID, ZSBH, ZSYXQ,
+		ZZDJ, FZBM, ZZFJ, STATE, CJSJ, DCHYYWFW, FJZD1,
+		FJZD2, ZYFW,ZZSHBM
+		from
+		DCHY_ZZXX
+		where DID = #{did}
+	</select>
+
+	<!--查询单个 -->
+	<select id="queryByDidAndState" resultMap="DchyZzxxMap">
+		select
+		ID, DID, ZSBH,
+		ZSYXQ, ZZDJ, FZBM, ZZFJ, STATE, CJSJ, DCHYYWFW, FJZD1,
+		FJZD2,
+		ZYFW,ZZSHBM
+		from
+		DCHY_ZZXX
+		where DID = #{did}
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllByLimit" resultMap="DchyZzxxVOMap">
+		select z.id,
+       z.did,
+       z.zsbh,
+       z.zsyxq,
+       z.zzdj,
+       z.fzbm,
+       z.zzfj,
+       z.state,
+       z.cjsj,
+       z.dchyywfw,
+       z.fjzd1,
+       z.fjzd2,
+       z.zyfw,
+       z.zzshbm,
+       z.djsj,
+       c.license_no,
+       c.unit_name,
+       c.unit_type,
+       c.unit_address,
+       c.busi_arrange,
+       c.legal_name,
+       c.legal_id_number,
+       c.link_phone,
+       c.registered_capital,
+       c.industry_type_name,
+       c.operating_period,
+       c.business_license,
+       c.company_state,
+       c.create_time,
+       c.memo1,
+       c.memo2,
+       c.link_man,
+       c.phone from
+		DCHY_ZZXX z
+		left join DCHY_COMPANY c on z.did=c.id
+		<if test="state != null and state != ''">
+			where z.STATE = #{state}
+		</if> order by z.CJSJ desc
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllZzxx" resultMap="DchyZzxxVOMap">
+		select z.id,
+       z.did,
+       z.zsbh,
+       z.zsyxq,
+       z.zzdj,
+       z.fzbm,
+       z.zzfj,
+       z.state,
+       z.cjsj,
+       z.dchyywfw,
+       z.fjzd1,
+       z.fjzd2,
+       z.zyfw,
+       z.zzshbm,
+       z.djsj,
+       c.license_no,
+       c.unit_name,
+       c.unit_type,
+       c.unit_address,
+       c.busi_arrange,
+       c.legal_name,
+       c.legal_id_number,
+       c.link_phone,
+       c.registered_capital,
+       c.industry_type_name,
+       c.operating_period,
+       c.business_license,
+       c.company_state,
+       c.create_time,
+       c.memo1,
+       c.memo2,
+       c.link_man,
+       c.phone from
+		DCHY_ZZXX z
+		left join DCHY_COMPANY c on z.did=c.id
+		<if test="state != null and state != ''">
+			where z.STATE = #{state}
+		</if>
+		order by z.CJSJ desc
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllGlZzxx" resultMap="DchyZzxxVOMap">
+		select * from
+		DCHY_ZZXX z
+		left join DCHY_COMPANY c on z.did=c.id order by CJSJ desc
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryGlZzxx" resultMap="DchyZzxxVOMap">
+		select z.id,
+       z.did,
+       z.zsbh,
+       z.zsyxq,
+       z.zzdj,
+       z.fzbm,
+       z.zzfj,
+       z.state,
+       z.cjsj,
+       z.dchyywfw,
+       z.fjzd1,
+       z.fjzd2,
+       z.zyfw,
+       z.zzshbm,
+       z.djsj,
+       c.license_no,
+       c.unit_name,
+       c.unit_type,
+       c.unit_address,
+       c.busi_arrange,
+       c.legal_name,
+       c.legal_id_number,
+       c.link_phone,
+       c.registered_capital,
+       c.industry_type_name,
+       c.operating_period,
+       c.business_license,
+       c.company_state,
+       c.create_time,
+       c.memo1,
+       c.memo2,
+       c.link_man,
+       c.phone from
+		DCHY_ZZXX z
+		left
+		join DCHY_COMPANY c on z.did=c.id order by CJSJ desc
+	</select>
+
+	<!--通过实体作为筛选条件查询 -->
+	<select id="queryAll" resultMap="DchyZzxxVOMap">
+		select z.id,
+       z.did,
+       z.zsbh,
+       z.zsyxq,
+       z.zzdj,
+       z.fzbm,
+       z.zzfj,
+       z.state,
+       z.cjsj,
+       z.dchyywfw,
+       z.fjzd1,
+       z.fjzd2,
+       z.zyfw,
+       z.zzshbm,
+       z.djsj,
+       c.license_no,
+       c.unit_name,
+       c.unit_type,
+       c.unit_address,
+       c.busi_arrange,
+       c.legal_name,
+       c.legal_id_number,
+       c.link_phone,
+       c.registered_capital,
+       c.industry_type_name,
+       c.operating_period,
+       c.business_license,
+       c.company_state,
+       c.create_time,
+       c.memo1,
+       c.memo2,
+       c.link_man,
+       c.phone from DCHY_ZZXX z
+		, DCHY_COMPANY c
+		<where>
+			z.did=c.id and z.state = '正常'
+			<if test="str != null and str != ''">
+				and (z.ZSBH like '%${str}%'
+				or z.ZZDJ like '%${str}%'
+				or
+				z.FZBM like '%${str}%'
+				or z.DCHYYWFW like '%${str}%'
+				or z.FJZD1 like
+				'%${str}%'
+				or z.FJZD2 like '%${str}%'
+				or z.ZYFW like '%${str}%'
+				or
+				c.UNIT_NAME like '%${str}%')
+			</if>order by z.CJSJ
+			desc
+		</where>
+	</select>
+
+	<!--通过实体作为筛选条件查询 -->
+	<select id="queryZzxxAll" resultMap="DchyZzxxVOMap">
+		select z.id,
+       z.did,
+       z.zsbh,
+       z.zsyxq,
+       z.zzdj,
+       z.fzbm,
+       z.zzfj,
+       z.state,
+       z.cjsj,
+       z.dchyywfw,
+       z.fjzd1,
+       z.fjzd2,
+       z.zyfw,
+       z.zzshbm,
+       z.djsj,
+       c.license_no,
+       c.unit_name,
+       c.unit_type,
+       c.unit_address,
+       c.busi_arrange,
+       c.legal_name,
+       c.legal_id_number,
+       c.link_phone,
+       c.registered_capital,
+       c.industry_type_name,
+       c.operating_period,
+       c.business_license,
+       c.company_state,
+       c.create_time,
+       c.memo1,
+       c.memo2,
+       c.link_man,
+       c.phone from DCHY_ZZXX z
+		, DCHY_COMPANY c
+		<where>
+			z.did=c.id and z.state = '正常'
+			<if test="str != null and str != ''">
+				and (z.ZSBH like '%${str}%'
+				or z.ZZDJ like '%${str}%'
+				or
+				z.FZBM like '%${str}%'
+				or z.DCHYYWFW like '%${str}%'
+				or z.FJZD1 like
+				'%${str}%'
+				or z.FJZD2 like '%${str}%'
+				or z.ZYFW like '%${str}%'
+				or
+				c.UNIT_NAME like '%${str}%')
+			</if>
+			order by z.CJSJ
+			desc
+		</where>
+	</select>
+
+
+	<!-- 添加资质信息 -->
+	<insert id="insert"
+		parameterType="com.github.DchyService.entity.DchyZzxx">
+		<selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into DCHY_ZZXX
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">ID,</if>
+			<if test="did !=null and did !=''">DID,</if>
+			<if test="zsbh !=null and zsbh !=''">ZSBH,</if>
+			<if test="zsyxq !=null">ZSYXQ,</if>
+			<if test="zzdj !=null and zzdj !=''">ZZDJ,</if>
+			<if test="fzbm !=null and fzbm !=''">FZBM,</if>
+			<if test="zzfj !=null and zzfj !=''">ZZFJ,</if>
+			<if test="zyfw !=null and zyfw !=''">ZYFW,</if>
+			<if test="state !=null and state !=''">STATE,</if>
+			<if test="cjsj !=null">CJSJ,</if>
+			<if test="dchyywfw !=null and dchyywfw !=''">DCHYYWFW,</if>
+			<if test="fjzd1 !=null and fjzd1 !=''">FJZD1,</if>
+			<if test="fjzd2 !=null and fjzd2 !=''">FJZD2,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">#{id},</if>
+			<if test="did !=null and did !=''">#{did},</if>
+			<if test="zsbh !=null and zsbh !=''">#{zsbh},</if>
+			<if test="zsyxq !=null">#{zsyxq,jdbcType=TIMESTAMP},</if>
+			<if test="zzdj !=null and zzdj !=''">#{zzdj},</if>
+			<if test="fzbm !=null and fzbm !=''">#{fzbm},</if>
+			<if test="zzfj !=null and zzfj !=''">#{zzfj},</if>
+			<if test="zyfw !=null and zyfw !=''">#{zyfw},</if>
+			<if test="state !=null and state !=''">#{state},</if>
+			<if test="cjsj !=null">#{cjsj,jdbcType=TIMESTAMP},</if>
+			<if test="dchyywfw !=null and dchyywfw !=''">#{dchyywfw},</if>
+			<if test="fjzd1 !=null and fjzd1 !=''">#{fjzd1},</if>
+			<if test="fjzd2 !=null and fjzd2 !=''">#{fjzd2},</if>
+		</trim>
+	</insert>
+
+	<!--通过主键修改数据 -->
+	<update id="update"
+		parameterType="com.github.DchyService.entity.DchyZzxx">
+		update DCHY_ZZXX
+		<set>
+			<if test="did != null and did != ''">
+				DID = #{did},
+			</if>
+			<if test="zsbh != null and zsbh != ''">
+				ZSBH = #{zsbh},
+			</if>
+			<if test="zsyxq != null">
+				ZSYXQ = #{zsyxq,jdbcType=TIMESTAMP},
+			</if>
+			<if test="zzdj != null and zzdj != ''">
+				ZZDJ = #{zzdj},
+			</if>
+			<if test="fzbm != null and fzbm != ''">
+				FZBM = #{fzbm},
+			</if>
+			<if test="zzfj != null and zzfj != ''">
+				ZZFJ = #{zzfj},
+			</if>
+			<if test="state != null and state != ''">
+				STATE = #{state},
+			</if>
+			<if test="cjsj != null">
+				CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+			</if>
+			<if test="dchyywfw != null and dchyywfw != ''">
+				DCHYYWFW = #{dchyywfw},
+			</if>
+			<if test="fjzd1 != null and fjzd1 != ''">
+				FJZD1 = #{fjzd1},
+			</if>
+			<if test="fjzd2 != null and fjzd2 != ''">
+				FJZD2 = #{fjzd2},
+			</if>
+			<if test="zyfw != null and zyfw != ''">
+				ZYFW = #{zyfw},
+			</if>
+			<if test="djsj != null">
+				DJSJ = #{djsj,jdbcType=TIMESTAMP},
+			</if>
+			<if test="djsj == null">
+				DJSJ = null,
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+</mapper>

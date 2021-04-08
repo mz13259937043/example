@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyPersonalDao">
+
+	<resultMap type="com.github.DchyService.entity.DchyPersonal"
+		id="DchyPersonalMap">
+		<result property="id" column="ID" jdbcType="VARCHAR" />
+		<result property="name" column="NAME" jdbcType="VARCHAR" />
+		<result property="idcard" column="IDCARD" jdbcType="VARCHAR" />
+		<result property="phonenum" column="PHONENUM"
+			jdbcType="VARCHAR" />
+		<result property="password" column="PASSWORD"
+			jdbcType="VARCHAR" />
+		<result property="createtime" column="CREATETIME"
+			jdbcType="TIMESTAMP" />
+		<result property="infor" column="INFOR" jdbcType="VARCHAR" />
+		<result property="ssbm" column="SSBM" jdbcType="VARCHAR" />
+		<result property="memo2" column="MEMO2" jdbcType="VARCHAR" />
+		<result property="state" column="STATE" jdbcType="VARCHAR" />
+		<result property="did" column="DID" jdbcType="VARCHAR" />
+		<result property="type" column="TYPE" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--查询单个 -->
+	<select id="queryById" resultMap="DchyPersonalMap">
+		select
+		ID, NAME, IDCARD,
+		PHONENUM, CREATETIME, INFOR, SSBM, MEMO2,
+		STATE, DID,TYPE
+		from
+		DCHY_PERSONAL
+		where ID = #{id}
+	</select>
+
+	<!--查询单个 -->
+	<select id="queryByDid" resultMap="DchyPersonalMap">
+		select
+		ID, NAME, IDCARD,
+		PHONENUM, CREATETIME, INFOR, SSBM, MEMO2,
+		STATE, DID,TYPE
+		from
+		DCHY_PERSONAL
+		where DID = #{did}
+	</select>
+
+	<!--查询多个 -->
+	<select id="queryUserByStr" resultMap="DchyPersonalMap">
+		select
+		ID, NAME, IDCARD,
+		PHONENUM, CREATETIME, INFOR, SSBM, MEMO2,
+		STATE, DID,TYPE
+		from
+		DCHY_PERSONAL
+		<if test="str != null and str != ''">
+			where (NAME like '%${str}%'
+			or IDCARD like '%${str}%'
+			or
+			PHONENUM like '%${str}%'
+			or TYPE like '%${str}%'
+			or SSBM like
+			'%${str}%')
+		</if>
+	</select>
+
+	<!--查询多个 -->
+	<select id="queryUserByStrLimit" resultMap="DchyPersonalMap">
+		select
+		ID, NAME, IDCARD,
+		PHONENUM, CREATETIME, INFOR, SSBM, MEMO2,
+		STATE, DID,TYPE
+		from
+		DCHY_PERSONAL where
+		<if test="str != null and str != ''">
+			(NAME like '%${str}%'
+			or IDCARD like '%${str}%'
+			or PHONENUM
+			like '%${str}%'
+			or TYPE like '%${str}%'
+			or SSBM like '%${str}%')
+		</if>
+	</select>
+
+
+	<!--查询单个 -->
+	<select id="queryByIdcard" resultMap="DchyPersonalMap">
+		select
+		ID, NAME, IDCARD,
+		PHONENUM, CREATETIME, INFOR, SSBM, MEMO2,
+		STATE, DID,TYPE
+		from
+		DCHY_PERSONAL
+		where IDCARD = #{idcard}
+	</select>
+	<!--查询单个 -->
+	<select id="queryByPhone" resultMap="DchyPersonalMap">
+		select
+		ID, NAME, IDCARD,
+		PHONENUM, CREATETIME, INFOR, SSBM, MEMO2,
+		STATE, DID,TYPE
+		from
+		DCHY_PERSONAL
+		where PHONENUM = #{phonenum}
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="queryAllByLimit" resultMap="DchyPersonalMap">
+		select
+		ID, NAME, IDCARD,
+		PHONENUM, CREATETIME, INFOR, SSBM, MEMO2,
+		STATE, DID,TYPE
+		from
+		DCHY_PERSONAL
+	</select>
+
+	<!--查询指定行数据 -->
+	<select id="findAll" resultMap="DchyPersonalMap">
+		select
+		ID, NAME, IDCARD,
+		PHONENUM,
+		CREATETIME, INFOR, SSBM, MEMO2,
+		STATE, DID,TYPE
+		from
+		DCHY_PERSONAL
+	</select>
+
+	<!--通过实体作为筛选条件查询 -->
+	<select id="queryAll" resultMap="DchyPersonalMap">
+		select
+		ID, NAME, IDCARD, PHONENUM, CREATETIME, INFOR, SSBM,
+		MEMO2,
+		STATE, DID,TYPE
+		from DCHY_PERSONAL
+		<where>
+			<if test="id != null and id != ''">
+				and ID = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				and NAME = #{name}
+			</if>
+			<if test="idcard != null and idcard != ''">
+				and IDCARD = #{idcard}
+			</if>
+			<if test="phonenum != null and phonenum != ''">
+				and PHONENUM = #{phonenum}
+			</if>
+			<if test="password != null and password != ''">
+				and PASSWORD = #{password}
+			</if>
+			<if test="createtime != null">
+				and CREATETIME = #{createtime}
+			</if>
+			<if test="infor != null and infor != ''">
+				and INFOR = #{infor}
+			</if>
+			<if test="SSBM != null and SSBM != ''">
+				and SSBM = #{ssbm}
+			</if>
+			<if test="memo2 != null and memo2 != ''">
+				and MEMO2 = #{memo2}
+			</if>
+			<if test="state != null and state != ''">
+				and STATE = #{state}
+			</if>
+			<if test="did != null and did != ''">
+				and DID = #{did}
+			</if>
+			<if test="type != null and type != ''">
+				and TYPE = #{type}
+			</if>
+		</where>
+	</select>
+
+	<!--新增所有列 -->
+	<insert id="insert"
+		parameterType="com.github.DchyService.entity.DchyPersonal">
+		<selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into DCHY_PERSONAL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">ID,</if>
+			<if test="name !=null and name !=''">NAME,</if>
+			<if test="idcard !=null and idcard !=''">IDCARD,</if>
+			<if test="phonenum !=null and phonenum !=''">PHONENUM,</if>
+			<if test="infor !=null and infor !=''">INFOR,</if>
+			<if test="did !=null and did !=''">DID,</if>
+			<if test="type !=null and type !=''">TYPE,</if>
+			<if test="ssbm !=null and ssbm !=''">SSBM,</if>
+			<if test="memo2 !=null and memo2 !=''">MEMO2,</if>
+			<if test="password !=null and password !=''">PASSWORD,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id !=null and id !=''">#{id},</if>
+			<if test="name !=null and name !=''">#{name},</if>
+			<if test="idcard !=null and idcard !=''">#{idcard},</if>
+			<if test="phonenum !=null and phonenum !=''">#{phonenum},</if>
+			<if test="infor !=null and infor !=''">#{infor},</if>
+			<if test="did !=null and did !=''">#{did},</if>
+			<if test="type !=null and type !=''">#{type},</if>
+			<if test="ssbm !=null and ssbm !=''">#{ssbm},</if>
+			<if test="memo2 !=null and memo2 !=''">#{memo2},</if>
+			<if test="password !=null and password !=''">#{password},</if>
+		</trim>
+	</insert>
+
+	<!--通过主键修改数据 -->
+	<update id="update"
+		parameterType="com.github.DchyService.entity.DchyPersonal">
+		update DCHY_PERSONAL
+		<set>
+			<if test="name != null and name != ''">
+				NAME = #{name},
+			</if>
+			<if test="idcard != null and idcard != ''">
+				IDCARD = #{idcard},
+			</if>
+			<if test="phonenum != null and phonenum != ''">
+				PHONENUM = #{phonenum},
+			</if>
+			<if test="password != null and password != ''">
+				PASSWORD = #{password},
+			</if>
+			<if test="infor != null and infor != ''">
+				INFOR = #{infor},
+			</if>
+			<if test="state != null and state != ''">
+				STATE = #{state},
+			</if>
+			<if test="did != null and did != ''">
+				DID = #{did},
+			</if>
+			<if test="type != null and type != ''">
+				TYPE = #{type},
+			</if>
+			<if test="did ==null">
+				DID = null,
+			</if>
+			<if test="memo2 !=null and memo2 !=''">
+				MEMO2=#{memo2},
+			</if>
+			<if test="ssbm !=null and ssbm !=''">
+				SSBM=#{ssbm},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+	<!--通过主键删除 -->
+	<delete id="deleteById">
+		delete from
+		DCHY_PERSONAL where ID = #{id}
+	</delete>
+
+	<!--通过主键删除 -->
+	<delete id="deleteByDid">
+		delete from
+		DCHY_PERSONAL where did= #{did}
+	</delete>
+
+
+</mapper>

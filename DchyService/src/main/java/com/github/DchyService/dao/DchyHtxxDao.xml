@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyHtxxDao">
+
+    <resultMap type="com.github.DchyService.entity.DchyHtxx" id="DchyHtxxMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="chdwid" column="CHDWID" jdbcType="VARCHAR"/>
+        <result property="qdrq" column="QDRQ" jdbcType="TIMESTAMP"/>
+        <result property="ydkssj" column="YDKSSJ" jdbcType="TIMESTAMP"/>
+        <result property="ydjssj" column="YDJSSJ" jdbcType="TIMESTAMP"/>
+        <result property="htjk" column="HTJK" jdbcType="VARCHAR"/>
+        <result property="xmfzgcs" column="XMFZGCS" jdbcType="VARCHAR"/>
+        <result property="htwj" column="HTWJ" jdbcType="VARCHAR"/>
+        <result property="sfqr" column="SFQR" jdbcType="VARCHAR"/>
+        <result property="qrsj" column="QRSJ" jdbcType="TIMESTAMP"/>
+        <result property="cjsj" column="CJSJ" jdbcType="TIMESTAMP"/>
+        <result property="pid" column="pid" jdbcType="VARCHAR"/>
+        <result property="chdwmc" column="CHDWMC" jdbcType="VARCHAR"/>
+        <result property="wtdwid" column="WTDWID" jdbcType="VARCHAR"/>
+        <result property="wtdwmc" column="WTDWMC" jdbcType="VARCHAR"/>
+        <result property="bcsm" column="BCSM" jdbcType="VARCHAR"/>
+        <result property="htzt" column="HTZT" jdbcType="VARCHAR"/>
+        <result property="chsx" column="CHSX" jdbcType="VARCHAR"/>
+        <result property="htbh" column="HTBH" jdbcType="VARCHAR"/>
+        <result property="jjlx" column="HTBH" jdbcType="VARCHAR"/>
+        <result property="scjksj" column="SCJKSJ" jdbcType="TIMESTAMP"/>
+        <result property="scjkje" column="SCJKJE" jdbcType="VARCHAR"/>
+        <result property="zxtzsid" column="ZXTZSID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DchyHtxxMap">
+        select
+          ID, CHDWID, QDRQ, YDKSSJ, YDJSSJ, HTJK, XMFZGCS, HTWJ, SFQR, QRSJ, CJSJ, pid, CHDWMC, WTDWID, WTDWMC, BCSM, HTZT, CHSX,HTBH,
+          JJLX,SCJKSJ,SCJKJE,ZXTZSID
+        from DCHY_HTXX
+        where ID = #{id}
+    </select>
+    <!--查询单个-->
+    <select id="getByPid" resultMap="DchyHtxxMap">
+        select
+          ID, CHDWID, QDRQ, YDKSSJ, YDJSSJ, HTJK, XMFZGCS, HTWJ, SFQR, QRSJ, CJSJ, pid, CHDWMC, WTDWID, WTDWMC, BCSM, HTZT, CHSX,HTBH,
+          JJLX,SCJKSJ,SCJKJE,ZXTZSID
+        from DCHY_HTXX
+        where pid=#{pid}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DchyHtxxMap">
+        select
+        ID, CHDWID, QDRQ, YDKSSJ, YDJSSJ, HTJK, XMFZGCS, HTWJ, SFQR, QRSJ, CJSJ, pid, CHDWMC, WTDWID, WTDWMC, BCSM,
+        HTZT, CHSX,HTBH,JJLX,SCJKSJ,SCJKJE,ZXTZSID
+        from DCHY_HTXX
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="chdwid != null and chdwid != ''">
+                and CHDWID = #{chdwid}
+            </if>
+            <if test="qdrq != null">
+                and QDRQ = #{qdrq}
+            </if>
+            <if test="ydkssj != null">
+                and YDKSSJ = #{ydkssj}
+            </if>
+            <if test="ydjssj != null">
+                and YDJSSJ = #{ydjssj}
+            </if>
+            <if test="htjk != null and htjk != ''">
+                and HTJK = #{htjk}
+            </if>
+            <if test="xmfzgcs != null and xmfzgcs != ''">
+                and XMFZGCS = #{xmfzgcs}
+            </if>
+            <if test="htwj != null and htwj != ''">
+                and HTWJ = #{htwj}
+            </if>
+            <if test="sfqr != null and sfqr != ''">
+                and SFQR = #{sfqr}
+            </if>
+            <if test="qrsj != null">
+                and QRSJ = #{qrsj}
+            </if>
+            <if test="cjsj != null">
+                and CJSJ = #{cjsj}
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid = #{pid}
+            </if>
+            <if test="chdwmc != null and chdwmc != ''">
+                and CHDWMC = #{chdwmc}
+            </if>
+            <if test="wtdwid != null and wtdwid != ''">
+                and WTDWID = #{wtdwid}
+            </if>
+            <if test="wtdwmc != null and wtdwmc != ''">
+                and WTDWMC = #{wtdwmc}
+            </if>
+            <if test="bcsm != null and bcsm != ''">
+                and BCSM = #{bcsm}
+            </if>
+            <if test="htzt != null and htzt != ''">
+                and HTZT = #{htzt}
+            </if>
+            <if test="chsx != null and chsx != ''">
+                and CHSX = #{chsx}
+            </if>
+            <if test="htbh != null and htbh != ''">
+                and HTBH = #{htbh}
+            </if>
+            <if test="scjksj != null">
+                and SCJKSJ = #{scjksj}
+            </if>
+            <if test="scjkje != null and scjkje != ''">
+                and SCJKJE = #{scjkje}
+            </if>
+            <if test="jjlx != null and jjlx != ''">
+                and JJLX = #{jjlx}
+            </if>
+            <if test="zxtzsid != null and zxtzsid != ''">
+                and ZXTZSID = #{zxtzsid}
+            </if>
+            <if test="searchStr != null and searchStr != ''">
+                and (CHDWMC like '%${searchStr}%'
+                   or CHSX like '%${searchStr}%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" >
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select sys_guid() from dual
+        </selectKey>
+        insert into DCHY_HTXX
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id !=''">
+                ID,
+            </if>
+            <if test="chdwid != null and chdwid !=''">
+                CHDWID,
+            </if>
+            <if test="chdwmc != null and chdwmc !=''">
+                CHDWMC,
+            </if>
+            <if test="wtdwid != null and wtdwid !=''">
+                WTDWID,
+            </if>
+            <if test="wtdwmc != null and wtdwmc !=''">
+                WTDWMC,
+            </if>
+            <if test="pid != null and pid !=''">
+                pid,
+            </if>
+            <if test="qdrq != null">
+                QDRQ,
+            </if>
+            <if test="ydkssj != null">
+                YDKSSJ,
+            </if>
+            <if test="ydjssj != null">
+                YDJSSJ,
+            </if>
+            <if test="htjk != null and htjk !=''">
+                HTJK,
+            </if>
+            <if test="xmfzgcs != null and xmfzgcs !=''">
+                XMFZGCS,
+            </if>
+            <if test="htwj != null and htwj !=''">
+                HTWJ,
+            </if>
+            <if test="chsx != null and chsx !=''">
+                chsx,
+            </if>
+            <if test="bcsm != null and bcsm != ''">
+                bcsm,
+            </if>
+            <if test="sfqr != null and sfqr !=''">
+                SFQR,
+            </if>
+            <if test="qrsj != null">
+                QRSJ,
+            </if>
+            <if test="cjsj != null">
+                CJSJ,
+            </if>
+            <if test="htbh != null and htbh !=''">
+                HTBH,
+            </if>
+            <if test="scjksj != null">
+                SCJKSJ,
+            </if>
+            <if test="scjkje != null and scjkje !=''">
+                SCJKJE,
+            </if>
+            <if test="jjlx != null and jjlx !=''">
+                JJLX,
+            </if>
+            <if test="zxtzsid != null and zxtzsid !=''">
+                ZXTZSID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="chdwid != null and chdwid !=''">
+                #{chdwid,jdbcType=VARCHAR},
+            </if>
+            <if test="chdwmc != null and chdwmc !=''">
+                #{chdwmc,jdbcType=VARCHAR},
+            </if>
+            <if test="wtdwid != null and wtdwid !=''">
+                #{wtdwid,jdbcType=VARCHAR},
+            </if>
+            <if test="wtdwmc != null and wtdwmc !=''">
+                #{wtdwmc,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid !=''">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="qdrq != null">
+                #{qdrq,jdbcType=DATE},
+            </if>
+            <if test="ydkssj != null">
+                #{ydkssj,jdbcType=DATE},
+            </if>
+            <if test="ydjssj != null">
+                #{ydjssj,jdbcType=DATE},
+            </if>
+            <if test="htjk != null and htjk !=''">
+                #{htjk,jdbcType=VARCHAR},
+            </if>
+            <if test="xmfzgcs != null and xmfzgcs !=''">
+                #{xmfzgcs,jdbcType=VARCHAR},
+            </if>
+            <if test="htwj != null and htwj !=''">
+                #{htwj,jdbcType=VARCHAR},
+            </if>
+            <if test="chsx != null and chsx !=''">
+                #{chsx,jdbcType=VARCHAR},
+            </if>
+            <if test="bcsm != null and bcsm !=''">
+                #{bcsm,jdbcType=VARCHAR},
+            </if>
+            <if test="sfqr != null and sfqr !=''">
+                #{sfqr,jdbcType=VARCHAR},
+            </if>
+            <if test="qrsj != null">
+                #{qrsj,jdbcType=DATE},
+            </if>
+            <if test="cjsj != null">
+                #{cjsj,jdbcType=DATE},
+            </if>
+            <if test="htbh != null">
+                #{htbh,jdbcType=DATE},
+            </if>
+            <if test="scjksj != null">
+                #{scjksj,jdbcType=DATE},
+            </if>
+            <if test="scjkje != null and scjkje !=''">
+                #{scjkje,jdbcType=VARCHAR},
+            </if>
+            <if test="jjlx != null and jjlx !=''">
+                #{jjlx,jdbcType=VARCHAR},
+            </if>
+            <if test="zxtzsid != null and zxtzsid != ''">
+                #{zxtzsid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update DCHY_HTXX
+        <set>
+            <if test="chdwid != null and chdwid != ''">
+                CHDWID = #{chdwid},
+            </if>
+            <if test="qdrq != null">
+                QDRQ = #{qdrq},
+            </if>
+            <if test="ydkssj != null">
+                YDKSSJ = #{ydkssj},
+            </if>
+            <if test="ydjssj != null">
+                YDJSSJ = #{ydjssj},
+            </if>
+            <if test="htjk != null and htjk != ''">
+                HTJK = #{htjk},
+            </if>
+            <if test="xmfzgcs != null and xmfzgcs != ''">
+                XMFZGCS = #{xmfzgcs},
+            </if>
+            <if test="htwj != null and htwj != ''">
+                HTWJ = #{htwj},
+            </if>
+            <if test="sfqr != null and sfqr != ''">
+                SFQR = #{sfqr},
+            </if>
+            <if test="qrsj != null">
+                QRSJ = #{qrsj},
+            </if>
+            <if test="cjsj != null">
+                CJSJ = #{cjsj},
+            </if>
+            <if test="pid != null and pid != ''">
+                PID = #{pid},
+            </if>
+            <if test="chdwmc != null and chdwmc != ''">
+                CHDWMC = #{chdwmc},
+            </if>
+            <if test="wtdwid != null and wtdwid != ''">
+                WTDWID = #{wtdwid},
+            </if>
+            <if test="wtdwmc != null and wtdwmc != ''">
+                WTDWMC = #{wtdwmc},
+            </if>
+            <if test="bcsm != null and bcsm != ''">
+                BCSM = #{bcsm},
+            </if>
+            <if test="htzt != null and htzt != ''">
+                HTZT = #{htzt},
+            </if>
+            <if test="chsx != null and chsx != ''">
+                CHSX = #{chsx},
+            </if>
+            <if test="htbh != null and htbh != ''">
+                HTBH = #{htbh},
+            </if>
+            <if test="scjksj != null">
+                SCJKSJ = #{scjksj},
+            </if>
+            <if test="scjkje != null and scjkje != ''">
+                SCJKJE = #{scjkje},
+            </if>
+            <if test="jjlx != null and jjlx != ''">
+                JJLX = #{jjlx},
+            </if>
+            <if test="zxtzsid != null and zxtzsid != ''">
+                ZXTZSID = #{zxtzsid},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from DCHY_HTXX where ID = #{id}
+    </delete>
+
+</mapper>

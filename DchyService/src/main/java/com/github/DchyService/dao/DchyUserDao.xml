@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyUserDao">
+
+    <resultMap type="com.github.DchyService.entity.DchyPersonal" id="DchyPersonalMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="idcard" column="IDCARD" jdbcType="VARCHAR"/>
+        <result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+        <result property="phonenum" column="PHONENUM" jdbcType="VARCHAR"/>
+        <result property="infor" column="INFOR" jdbcType="VARCHAR"/>
+        <result property="createtime" column="CREATETIME" jdbcType="DATE"/>
+        <result property="state" column="STATE" jdbcType="VARCHAR"/>
+        <result property="ssbm" column="SSBM" jdbcType="VARCHAR"/>
+        <result property="memo2" column="MEMO2" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap type="com.github.DchyService.entity.DchyCompany" id="DchyCompanyMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="tyshxydm" column="LICENSE_NO" jdbcType="VARCHAR"/>
+        <result property="dwmc" column="UNIT_NAME" jdbcType="VARCHAR"/>
+        <result property="dwxz" column="UNIT_TYPE" jdbcType="VARCHAR"/>
+        <result property="qydz" column="UNIT_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="jyfw" column="BUSI_ARRANGE" jdbcType="VARCHAR"/>
+        <result property="cjsj" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="frxm" column="LEGAL_NAME" jdbcType="VARCHAR"/>
+        <result property="frsfz" column="LEGAL_ID_NUMBER" jdbcType="VARCHAR"/>
+        <result property="frdh" column="LINK_PHONE" jdbcType="VARCHAR"/>
+        <result property="hylxmc" column="INDUSTRY_TYPE_NAME" jdbcType="VARCHAR"/>
+        <result property="jyqx" column="OPERATING_PERIOD" jdbcType="VARCHAR"/>
+        <result property="zczj" column="REGISTERED_CAPITAL" jdbcType="VARCHAR"/>
+        <result property="yyzz" column="BUSINESS_LICENSE" jdbcType="VARCHAR"/>
+        <result property="qyzt" column="COMPANY_STATE" jdbcType="VARCHAR"/>
+        <result property="ssbm" column="SSBM" jdbcType="VARCHAR"/>
+        <result property="memo2" column="MEMO2" jdbcType="VARCHAR"/>
+        <result property="lxr" column="LINK_MAN" jdbcType="VARCHAR"/>
+        <result property="lxdh" column="PHONE" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_Company_List">
+    *
+    </sql>
+    <sql id="Base_Column_Personal_List">
+    ID, NAME, IDCARD, PASSWORD, PHONENUM, INFOR,CREATETIME, STATE,SSBM, MEMO2
+    </sql>
+
+    <!--查询单个企业-->
+    <select id="queryCompanyByLicenseNo" resultMap="DchyCompanyMap">
+        select
+          <include refid="Base_Column_Company_List" /> 
+           from DCHY_COMPANY  where LICENSE_NO = #{tyshxydm}
+    </select>
+<!--    电话登录-->
+    <select id="loginBytel" resultMap="DchyPersonalMap">
+        select
+          <include refid="Base_Column_Company_List" />
+        from DCHY_PERSONAL  where phonenum = #{phonenum} and password = #{password}
+    </select>
+    <select id="getIdByLicenseNo" resultType="java.lang.String">
+        select ID from DCHY_COMPANY  where LICENSE_NO = #{tyshxydm}
+    </select>
+    <!--查询个人-->
+    <select id="getPersonalByidCard" resultMap="DchyPersonalMap">
+        select
+          <include refid="Base_Column_Personal_List" /> 
+           from DCHY_PERSONAL  where IDCARD = #{idcard}
+    </select>
+    <select id="findCompanybyId" resultMap="DchyCompanyMap">
+        select
+          <include refid="Base_Column_Company_List" /> 
+           from DCHY_COMPANY  where ID = #{id}
+    </select>
+    <select id="findPersonalbyId" resultMap="DchyPersonalMap">
+        select
+          <include refid="Base_Column_Personal_List" /> 
+           from DCHY_PERSONAL  where ID = #{id}
+    </select>
+
+    <!--通过统一社会信用代码修改数据-->
+    <update id="updateCompany">
+        update DCHY_COMPANY
+        <set>
+            <if test="tyshxydm != null and tyshxydm != ''">
+                LICENSE_NO = #{tyshxydm},
+            </if>
+            <if test="dwmc != null and dwmc != ''">
+                UNIT_NAME = #{dwmc},
+            </if>
+            <if test="dwxz != null and dwxz != ''">
+                UNIT_TYPE = #{dwxz},
+            </if>
+            <if test="qydz != null and qydz != ''">
+                UNIT_ADDRESS = #{qydz},
+            </if>
+            <if test="jyfw != null and jyfw != ''">
+                BUSI_ARRANGE = #{jyfw},
+            </if>
+            <if test="cjsj != null">
+                CREATE_TIME = #{cjsj,jdbcType=DATE},
+            </if>
+            <if test="frxm != null and frxm != ''">
+                LEGAL_NAME = #{frxm},
+            </if>
+            <if test="frsfz != null and frsfz != ''">
+                LEGAL_ID_NUMBER = #{frsfz},
+            </if>
+            <if test="frdh != null and frdh != ''">
+                LINK_PHONE = #{frdh},
+            </if>
+            <if test="hylxmc != null and hylxmc != ''">
+                INDUSTRY_TYPE_NAME = #{hylxmc},
+            </if>
+            <if test="jyqx != null and jyqx != ''">
+                OPERATING_PERIOD = #{jyqx},
+            </if>
+            <if test="zczj != null and zczj != ''">
+                REGISTERED_CAPITAL = #{zczj},
+            </if>
+            <if test="yyzz != null and yyzz != ''">
+                BUSINESS_LICENSE = #{yyzz},
+            </if>
+            <if test="qyzt != null and qyzt != ''">
+                COMPANY_STATE = #{qyzt},
+            </if>
+            <if test="lxr != null and lxr != ''">
+                LINK_MAN = #{lxr},
+            </if>
+            <if test="lxdh != null and lxdh != ''">
+                PHONE = #{lxdh},
+            </if>
+          
+        </set>
+        where LICENSE_NO = #{tyshxydm}
+    </update>
+    <!--通过身份证号修改数据-->
+    <update id="updatePersonal">
+        update DCHY_PERSONAL
+        <set>
+            <if test="name != null and name != ''">
+                NAME = #{name},
+            </if>
+            <if test="idCard != null and idCard != ''">
+                IDCARD = #{idCard},
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD = #{password},
+            </if>
+            <if test="phonenum != null and phonenum != ''">
+                PHONENUM = #{phonenum},
+            </if>
+            <if test="infor != null and infor != ''">
+                INFOR = #{infor},
+            </if>
+            <if test="createtime != null and createtime != ''">
+                CREATETIME = #{createtime},
+            </if>
+          
+            <if test="state != null and state != ''">
+                STATE = #{state},
+            </if>
+        </set>
+        where IDCARD = #{idCard}
+    </update>
+     <insert id="insertCompany" parameterType="com.github.DchyService.entity.DchyCompany">
+        insert into DCHY_COMPANY
+        <selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="tyshxydm != null and tyshxydm != ''">
+                LICENSE_NO,
+            </if>
+            <if test="dwmc != null and dwmc != ''">
+                UNIT_NAME,
+            </if>
+            <if test="dwxz != null and dwxz != ''">
+                UNIT_TYPE,
+            </if>
+            <if test="qydz != null and qydz != ''">
+                UNIT_ADDRESS,
+            </if>
+
+            <if test="jyfw != null and jyfw != ''">
+                BUSI_ARRANGE,
+            </if>
+            <if test="cjsj != null">
+                CREATE_TIME,
+            </if>
+            <if test="frxm != null and frxm != ''">
+                LEGAL_NAME,
+            </if>
+            <if test="frsfz != null and frsfz != ''">
+                LEGAL_ID_NUMBER,
+            </if>
+            <if test="frdh != null and frdh != ''">
+                LINK_PHONE,
+            </if>
+            <if test="hylxmc != null and hylxmc != ''">
+                INDUSTRY_TYPE_NAME,
+            </if>
+            <if test="jyqx != null and jyqx != ''">
+                OPERATING_PERIOD,
+            </if>
+            <if test="zczj != null and zczj != ''">
+                REGISTERED_CAPITAL,
+            </if>
+            <if test="yyzz != null and yyzz != ''">
+                BUSINESS_LICENSE,
+            </if>
+            <if test="qyzt != null and qyzt != ''">
+                COMPANY_STATE,
+            </if>
+            <if test="lxr != null and lxr != ''">
+                LINK_MAN,
+            </if>
+            <if test="lxdh != null and lxdh != ''">
+                PHONE,
+            </if>
+            
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="tyshxydm != null and tyshxydm != ''">
+                #{tyshxydm,jdbcType=VARCHAR},
+            </if>
+            <if test="dwmc != null and dwmc != ''">
+                #{dwmc,jdbcType=VARCHAR},
+            </if>
+            <if test="dwxz != null and dwxz != ''">
+                #{dwxz,jdbcType=VARCHAR},
+            </if>
+            <if test="qydz != null and qydz != ''">
+                #{qydz,jdbcType=VARCHAR},
+            </if>
+            <if test="jyfw != null and jyfw != ''">
+                #{jyfw,jdbcType=VARCHAR},
+            </if>
+            <if test="cjsj != null">
+                #{cjsj,jdbcType=DATE},
+            </if>
+            <if test="frxm != null and frxm != ''">
+                #{frxm,jdbcType=VARCHAR},
+            </if>
+            <if test="frsfz != null and frsfz != ''">
+                #{frsfz,jdbcType=VARCHAR},
+            </if>
+            <if test="frdh != null and frdh != ''">
+                #{frdh,jdbcType=VARCHAR},
+            </if>
+            <if test="hylxmc != null and hylxmc != ''">
+                #{hylxmc,jdbcType=VARCHAR},
+            </if>
+            <if test="jyqx != null and jyqx != ''">
+                #{jyqx,jdbcType=VARCHAR},
+            </if>
+            <if test="zczj != null and zczj != ''">
+                #{zczj,jdbcType=VARCHAR},
+            </if>
+            <if test="yyzz != null and yyzz != ''">
+                #{yyzz,jdbcType=VARCHAR},
+            </if>
+            <if test="qyzt != null and qyzt != ''">
+                #{qyzt,jdbcType=VARCHAR},
+            </if>
+            <if test="lxr != null and lxr != ''">
+                #{lxr,jdbcType=VARCHAR},
+            </if>
+            <if test="lxdh != null and lxdh != ''">
+                #{lxdh,jdbcType=VARCHAR},
+            </if>
+          
+        </trim>
+    </insert>
+     <insert id="insertPersonal" parameterType="com.github.DchyService.entity.DchyPersonal">
+        insert into DCHY_PERSONAL
+        <selectKey keyProperty="id" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="name != null and name != ''">
+                NAME,
+            </if>
+            <if test="idcard != null and idcard != ''">
+                IDCARD,
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD,
+            </if>
+            <if test="phonenum != null and phonenum != ''">
+                PHONENUM,
+            </if>
+
+            <if test="infor != null and infor != ''">
+                INFOR,
+            </if>
+            <if test="createtime != null">
+                CREATETIME,
+            </if>
+           
+            <if test="state != null and state != ''">
+                STATE,
+            </if>
+            
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and name != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="idcard != null and idcard != ''">
+                #{idcard,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="phonenum != null and phonenum != ''">
+                #{phonenum,jdbcType=VARCHAR},
+            </if>
+            <if test="infor != null and infor != ''">
+                #{infor,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            
+            <if test="state != null and state != ''">
+                #{state,jdbcType=VARCHAR},
+            </if>
+          
+        </trim>
+    </insert>
+
+</mapper>

@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.DchyService.dao.DchyLogDao">
+
+    <resultMap type="com.github.DchyService.entity.DchyLog" id="DchyLogMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="fsrxm" column="FSRXM" jdbcType="VARCHAR"/>
+        <result property="fsrid" column="FSRID" jdbcType="VARCHAR"/>
+        <result property="fssj" column="FSSJ" jdbcType="TIMESTAMP"/>
+        <result property="jsrxm" column="JSRXM" jdbcType="VARCHAR"/>
+        <result property="jsrid" column="JSRID" jdbcType="VARCHAR"/>
+        <result property="jssj" column="JSSJ" jdbcType="TIMESTAMP"/>
+        <result property="dqhj" column="DQHJ" jdbcType="VARCHAR"/>
+        <result property="pid" column="PID" jdbcType="VARCHAR"/>
+        <result property="clzt" column="CLZT" jdbcType="VARCHAR"/>
+        <result property="sfhq" column="SFHQ" jdbcType="VARCHAR"/>
+        <result property="hqwc" column="HQWC" jdbcType="VARCHAR"/>
+        <result property="cjsj" column="CJSJ" jdbcType="TIMESTAMP"/>
+        <result property="sfyd" column="SFYD" jdbcType="VARCHAR"/>
+        <result property="ywlx" column="YWLX" jdbcType="VARCHAR"/>
+        <result property="clsx" column="CLSX" jdbcType="VARCHAR"/>
+        <result property="czsm" column="CZSM" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="findById" resultMap="DchyLogMap">
+        select
+          ID, FSRXM, FSRID, FSSJ, JSRXM, JSRID, JSSJ, DQHJ, PID, CLZT, SFHQ, HQWC, CJSJ, SFYD, YWLX,CLSX,CZSM
+        from DCHY_LOG
+        where ID = #{id}
+    </select>
+    <select id="getRecentLog" resultMap="DchyLogMap">
+        select x.*
+          from DCHY_LOG x
+         where x.cjsj =
+               (select max(t.cjsj)
+                  from DCHY_LOG t
+                 where t.pid = #{pid})
+           and x.pid = #{pid}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="findList" resultMap="DchyLogMap">
+        select
+        ID, FSRXM, FSRID, FSSJ, JSRXM, JSRID, JSSJ, DQHJ, PID, CLZT, SFHQ, HQWC, CJSJ, SFYD, YWLX,CLSX,CZSM
+        from DCHY_LOG
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="fsrxm != null and fsrxm != ''">
+                and FSRXM = #{fsrxm}
+            </if>
+            <if test="fsrid != null and fsrid != ''">
+                and FSRID = #{fsrid}
+            </if>
+            <if test="fssj != null">
+                and FSSJ = #{fssj}
+            </if>
+            <if test="jsrxm != null and jsrxm != ''">
+                and JSRXM = #{jsrxm}
+            </if>
+            <if test="jsrid != null and jsrid != ''">
+                and JSRID = #{jsrid}
+            </if>
+            <if test="jssj != null">
+                and JSSJ = #{jssj}
+            </if>
+            <if test="dqhj != null and dqhj != ''">
+                and DQHJ = #{dqhj}
+            </if>
+            <if test="pid != null and pid != ''">
+                and PID = #{pid}
+            </if>
+            <if test="clzt != null and clzt != ''">
+                and CLZT = #{clzt}
+            </if>
+            <if test="sfhq != null and sfhq != ''">
+                and SFHQ = #{sfhq}
+            </if>
+            <if test="hqwc != null and hqwc != ''">
+                and HQWC = #{hqwc}
+            </if>
+            <if test="cjsj != null">
+                and CJSJ = #{cjsj}
+            </if>
+            <if test="sfyd != null and sfyd != ''">
+                and SFYD = #{sfyd}
+            </if>
+            <if test="ywlx != null and ywlx != ''">
+                and ywlx = #{ywlx}
+            </if>
+            <if test="clsx != null and clsx != ''">
+                and clsx = #{clsx}
+            </if>
+            <if test="czsm != null and czsm != ''">
+                and czsm = #{czsm}
+            </if>
+        </where>
+        order by jssj
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" >
+        insert into DCHY_LOG
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select sys_guid() from dual
+        </selectKey>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                ID,
+            </if>
+            <if test="fsrxm != null and fsrxm != ''">
+                FSRXM,
+            </if>
+            <if test="fsrid != null and fsrid != ''">
+                FSRID,
+            </if>
+            <if test="fssj != null">
+                FSSJ,
+            </if>
+            <if test="jsrxm != null and jsrxm != ''">
+                JSRXM,
+            </if>
+            <if test="jsrid != null and jsrid != ''">
+                JSRID,
+            </if>
+            <if test="jssj != null">
+                JSSJ,
+            </if>
+            <if test="dqhj != null and dqhj != ''">
+                DQHJ,
+            </if>
+            <if test="pid != null and pid != ''">
+                PID,
+            </if>
+            <if test="clzt != null and clzt != ''">
+                CLZT,
+            </if>
+            <if test="sfhq != null and sfhq != ''">
+                SFHQ,
+            </if>
+            <if test="hqwc != null and hqwc != ''">
+                HQWC,
+            </if>
+            <if test="cjsj != null">
+                CJSJ,
+            </if>
+            <if test="sfyd != null and sfyd != ''">
+                SFYD,
+            </if>
+            <if test="ywlx != null and ywlx != ''">
+                ywlx,
+            </if>
+            <if test="clsx != null and clsx != ''">
+                clsx,
+            </if>
+            <if test="czsm != null and czsm != ''">
+                czsm,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="fsrxm != null and fsrxm != ''">
+                #{fsrxm,jdbcType=VARCHAR},
+            </if>
+            <if test="fsrid != null and fsrid != ''">
+                #{fsrid,jdbcType=VARCHAR},
+            </if>
+            <if test="fssj != null">
+                #{fssj,jdbcType=DATE},
+            </if>
+            <if test="jsrxm != null and jsrxm != ''">
+                #{jsrxm,jdbcType=VARCHAR},
+            </if>
+            <if test="jsrid != null and jsrid != ''">
+                #{jsrid,jdbcType=VARCHAR},
+            </if>
+            <if test="jssj != null">
+                #{jssj,jdbcType=VARCHAR},
+            </if>
+            <if test="dqhj != null and dqhj != ''">
+                #{dqhj,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid != ''">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="clzt != null and clzt != ''">
+                #{clzt,jdbcType=VARCHAR},
+            </if>
+            <if test="sfhq != null and sfhq != ''">
+                #{sfhq,jdbcType=VARCHAR},
+            </if>
+            <if test="hqwc != null and hqwc != ''">
+                #{hqwc,jdbcType=VARCHAR},
+            </if>
+            <if test="cjsj != null">
+                #{cjsj,jdbcType=DATE},
+            </if>
+            <if test="sfyd != null and sfyd != ''">
+                #{sfyd,jdbcType=VARCHAR},
+            </if>
+            <if test="ywlx != null and ywlx != ''">
+                #{ywlx,jdbcType=VARCHAR},
+            </if>
+            <if test="clsx != null and clsx != ''">
+                #{clsx,jdbcType=VARCHAR},
+            </if>
+            <if test="czsm != null and czsm != ''">
+                #{czsm,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update DCHY_LOG
+        <set>
+            <if test="fsrxm != null and fsrxm != ''">
+                FSRXM = #{fsrxm},
+            </if>
+            <if test="fsrid != null and fsrid != ''">
+                FSRID = #{fsrid},
+            </if>
+            <if test="fssj != null">
+                FSSJ = #{fssj},
+            </if>
+            <if test="jsrxm != null and jsrxm != ''">
+                JSRXM = #{jsrxm},
+            </if>
+            <if test="jsrid != null and jsrid != ''">
+                JSRID = #{jsrid},
+            </if>
+            <if test="jssj != null">
+                JSSJ = #{jssj},
+            </if>
+            <if test="dqhj != null and dqhj != ''">
+                DQHJ = #{dqhj},
+            </if>
+            <if test="pid != null and pid != ''">
+                PID = #{pid},
+            </if>
+            <if test="clzt != null and clzt != ''">
+                CLZT = #{clzt},
+            </if>
+            <if test="sfhq != null and sfhq != ''">
+                SFHQ = #{sfhq},
+            </if>
+            <if test="hqwc != null and hqwc != ''">
+                HQWC = #{hqwc},
+            </if>
+            <if test="cjsj != null">
+                CJSJ = #{cjsj},
+            </if>
+            <if test="sfyd != null and sfyd != ''">
+                SFYD = #{sfyd},
+            </if>
+            <if test="ywlx != null and ywlx != ''">
+                YWLX = #{ywlx},
+            </if>
+            <if test="clsx != null and clsx != ''">
+                CLSX = #{clsx},
+            </if>
+            <if test="czsm != null and czsm != ''">
+                CZSM = #{czsm},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from DCHY_LOG where ID = #{id}
+    </delete>
+
+    <select id="findFbxxDealingList" parameterType="com.github.DchyService.entity.DchyLog" resultType="java.util.Map">
+        select
+            fbxx.ID                    as fbxxid,
+            fbxx.XMMC                  as xmmc,
+            fbxx.WTDW                  as wtdw,
+            fbxx.WTDWID                as fbxxwtdwid,
+            fbxx.XMDZ                  as fbxxxmdz,
+            fbxx.CHJD                  as fbxxchjd,
+            fbxx.ZZDJ                  as fbxxzzdj,
+            fbxx.YQXYDJ                as fbxxyqxydj,
+            fbxx.JYFS                  as fbxxjyfs,
+            fbxx.YSJE                  as fbxxysje,
+            fbxx.DJBH                  as djbh,
+            fbxx.ZJLY                  as fbxxzjly,
+            fbxx.XMWCSX                as fbxxxmwcsx,
+            fbxx.FWNR                  as fbxxfwnr,
+            fbxx.BMKSSJ                as fbxxbmkssj,
+            fbxx.BMJSSJ                as fbxxbmjssj,
+            fbxx.YZDWLXR               as fbxxyzdwlxr,
+            fbxx.YZDWLXRDH             as fbxxyzdwlxrdh,
+            fbxx.CJSJ                  as fbxxcjsj,
+            fbxx.XMZT                  as fbxxxmzt,
+            fbxx.DCHYBH                as fbxxdchybh,
+            fbxx.LXYJ                  as fbxxlxyj,
+            fbxx.BZ                    as fbxxbz,
+            fbxx.FJTJ                  as fbxxfjtj,
+            fbxx.FBYY 		as fbxxfbyy,
+            fbxx.CHCGFZR	as fbxxchcgfzr,
+            fbxx.CHCGFZRDH	as fbxxchcgfzrdh,
+            fbxx.CHCGFZRSFZH	as fbxxchcgfzrsfzh,
+            htxx.ID                    as htxxid,
+            htxx.CHDWID                as htxxchdwid,
+            htxx.QDRQ                  as htxxqdrq,
+            htxx.YDKSSJ                as htxxydkssj,
+            htxx.YDJSSJ                as htxxydjssj,
+            htxx.HTJK                  as htxxhtjk,
+            htxx.XMFZGCS               as htxxxmfzgcs,
+            htxx.HTWJ                  as htxxhtwj,
+            htxx.SFQR                  as htxxsfqr,
+            htxx.QRSJ                  as htxxqrsj,
+            htxx.CJSJ                  as htxxcjsj,
+            htxx.PID                  as htxxpid,
+            htxx.CHDWMC                as htxxchdwmc,
+            htxx.WTDWID                as htxxwtdwid,
+            htxx.WTDWMC                as chdw,
+            htxx.BCSM                  as htxxbcsm,
+            htxx.HTZT                  as htxxhtzt,
+            htxx.CHSX                  as htxxchsx,
+            log.pid                    as logpid,
+            log.id                     as logid,
+            log.FSRXM                  as logfsrxm,
+            log.FSRID                  as logfsrid,
+            log.FSSJ                   as logfssj,
+            log.JSRXM                  as logjsrxm,
+            log.JSRID                  as logjsrid,
+            log.JSSJ                   as jssj,
+            log.DQHJ                   as logdqhj,
+            log.CLZT                   as logclzt,
+            log.SFHQ                   as logsfhq,
+            log.HQWC                   as loghqwc,
+            log.CJSJ                   as logcjsj,
+            log.SFYD                   as logsfyd,
+            log.ywlx                   as ywlx,
+            log.clsx                   as clsx,
+            log.czsm                   as czsm
+        from
+        (select distinct (t.pid),
+            t.id,
+            t.FSRXM,
+            t.FSRID,
+            t.FSSJ,
+            t.JSRXM,
+            t.JSRID,
+            t.JSSJ,
+            t.DQHJ,
+            t.CLZT,
+            t.SFHQ,
+            t.HQWC,
+            t.CJSJ,
+            t.SFYD,
+            t.ywlx,
+            t.clsx,
+            t.czsm
+        from DCHY_LOG t
+        where t.jsrid = #{jsrid}
+        and t.jssj = (select max(l.jssj)
+        from DCHY_LOG l
+        where l.jsrid = #{jsrid}
+            and t.pid = l.pid)) log
+            join DCHY_FBXX fbxx on log.pid = fbxx.id
+            left join Dchy_Htxx htxx on fbxx.id = htxx.pid
+        where fbxx.xmzt != '已撤销'
+            and fbxx.xmzt != '已完成'
+        <if test="searchStr != null and searchStr != ''">
+            and (fbxx.xmmc like '%${searchStr}%'
+            or htxx.chdwmc like '%${searchStr}%'
+            or fbxx.djbh like '%${searchStr}%'
+            or fbxx.WTDW like '%${searchStr}%'
+            or log.ywlx like '%${searchStr}%'
+            or log.dqhj like '%${searchStr}%'
+            or log.clsx like '%${searchStr}%')
+        </if>
+        order by log.jssj desc
+    </select>
+    <select id="findYwxxDealingList" parameterType="com.github.DchyService.entity.DchyLog" resultType="java.util.Map">
+        select
+            fbxx.ID        as fbxxid,
+            fbxx.XMMC      as xmmc,
+            fbxx.WTDW      as wtdw,
+            fbxx.WTDWID    as fbxxwtdwid,
+            fbxx.XMDZ      as fbxxxmdz,
+            fbxx.CHJD      as fbxxchjd,
+            fbxx.ZZDJ      as fbxxzzdj,
+            fbxx.YQXYDJ    as fbxxyqxydj,
+            fbxx.JYFS      as fbxxjyfs,
+            fbxx.YSJE      as fbxxysje,
+            fbxx.DJBH      as djbh,
+            fbxx.ZJLY      as fbxxzjly,
+            fbxx.XMWCSX    as fbxxxmwcsx,
+            fbxx.FWNR      as fbxxfwnr,
+            fbxx.BMKSSJ    as fbxxbmkssj,
+            fbxx.BMJSSJ    as fbxxbmjssj,
+            fbxx.YZDWLXR   as fbxxyzdwlxr,
+            fbxx.YZDWLXRDH as fbxxyzdwlxrdh,
+            fbxx.CJSJ      as fbxxcjsj,
+            fbxx.XMZT      as fbxxxmzt,
+            fbxx.DCHYBH    as fbxxdchybh,
+            fbxx.LXYJ      as fbxxlxyj,
+            fbxx.BZ        as fbxxbz,
+            fbxx.FJTJ      as fbxxfjtj,
+            fbxx.FBYY 		as fbxxfbyy,
+            fbxx.CHCGFZR	as fbxxchcgfzr,
+            fbxx.CHCGFZRDH	as fbxxchcgfzrdh,
+            fbxx.CHCGFZRSFZH	as fbxxchcgfzrsfzh,
+            ywxx.ID        as ywxxid,
+            ywxx.PID       as ywxxpid,
+            ywxx.CHQSSJ    as ywxxchqssj,
+            ywxx.CHWCSJ    as ywxxchwcsj,
+            ywxx.CHSSBCSM  as ywxxchssbcsm,
+            ywxx.SSFJ      as ywxxssfj,
+            ywxx.CGHJFJ    as ywxxcghjfj,
+            ywxx.CHCGFZR   as ywxxchcgfzr,
+            ywxx.FZRDH     as ywxxfzrdh,
+            ywxx.CGHJBCSM  as ywxxcghjbcsm,
+            ywxx.CGQRFJ    as ywxxcgqrfj,
+            ywxx.CGQRBCSM  as ywxxcgqrbcsm,
+            ywxx.CGYSFJ    as ywxxcgysfj,
+            ywxx.CGYSBCSM  as ywxxcgysbcsm,
+            ywxx.CGSHFJ    as ywxxcgshfj,
+            ywxx.CGSHBCSM  as ywxxchshbcsm,
+            ywxx.YL1       as ywxxyl1,
+            ywxx.YL2       as ywxxyl2,
+            ywxx.YL3       as ywxxyl3,
+            ywxx.YWMC      as ywxxywmc,
+            ywxx.CJSJ      as ywxxcjsj,
+            ywxx.ZT        as ywxxzt,
+            ywxx.FZRSFZ    as ywxxfzrsfz,
+            ywxx.ZJBG      as ywxxzjbg,
+            ywxx.WQRYY     as ywxxwqryy,
+            ywxx.CGQRSJ    as ywxxcgqrsj,
+            ywxx.CGSFSH    as ywxxcgsfsh,
+            ywxx.CGSHQR    as ywxxcgshqr,
+            ywxx.WGSYY     as ywxxwgsyy,
+            ywxx.CHSHSJ    as ywxxchshsj,
+            ywxx.CGHJSJ    as ywxxcghjsj,
+            ywxx.CGYSZT    as ywxxcgyszt,
+            ywxx.CGHJZT    as ywxxcghjzt,
+            ywxx.DJH       as ywxxdjh,
+            ywxx.BDCDYH    as ywxxbdcdyh,
+            ywxx.CGSHR     as ywxxcgshr ,
+            ywxx.CGSHRID   as ywxxcgfzrid,
+            ywxx.CGSHYJ    as ywxxcgshyj,
+            ywxx.CGBH    as ywxxcgbh,
+            ywxx.CGYSSJ    as ywxxcgyssj,
+            ywxx.CGSHJLsID    as ywxxcgshjlsid,
+            htxx.ID        as htxxid,
+            htxx.CHDWID    as htxxchdwid,
+            htxx.QDRQ      as htxxqdrq,
+            htxx.YDKSSJ    as htxxydkssj,
+            htxx.YDJSSJ    as htxxydjssj,
+            htxx.HTJK      as htxxhtjk,
+            htxx.XMFZGCS   as htxxxmfzgcs,
+            htxx.HTWJ      as htxxhtwj,
+            htxx.SFQR      as htxxsfqr,
+            htxx.QRSJ      as htxxqrsj,
+            htxx.CJSJ      as htxxcjsj,
+            htxx.PID       as htxxpid,
+            htxx.CHDWMC    as htxxchdwmc,
+            htxx.WTDWID    as htxxwtdwid,
+            htxx.WTDWMC    as chdw,
+            htxx.BCSM      as htxxbcsm,
+            htxx.HTZT      as htxxhtzt,
+            htxx.CHSX      as htxxchsx,
+            log.pid        as logpid,
+            log.id         as logid,
+            log.FSRXM      as logfsrxm,
+            log.FSRID      as logfsrid,
+            log.FSSJ       as logfssj,
+            log.JSRXM      as logjsrxm,
+            log.JSRID      as logjsrid,
+            log.JSSJ       as jssj,
+            log.DQHJ       as logdqhj,
+            log.CLZT       as logclzt,
+            log.SFHQ       as logsfhq,
+            log.HQWC       as loghqwc,
+            log.CJSJ       as logcjsj,
+            log.SFYD       as logsfyd,
+            log.ywlx       as ywlx,
+            log.clsx       as clsx,
+            log.czsm       as czsm
+        from (select distinct (t.pid),
+            t.id,
+            t.FSRXM,
+            t.FSRID,
+            t.FSSJ,
+            t.JSRXM,
+            t.JSRID,
+            t.JSSJ,
+            t.DQHJ,
+            t.CLZT,
+            t.SFHQ,
+            t.HQWC,
+            t.CJSJ,
+            t.SFYD,
+            t.ywlx,
+            t.clsx,
+            t.czsm
+        from DCHY_LOG t
+            where
+            t.fsrid = #{jsrid} or t.jsrid = #{jsrid}
+                and t.jssj = (select max(l.jssj)
+        from DCHY_LOG l
+            where
+            l.fsrid = #{jsrid} or t.jsrid = #{jsrid}
+                and t.pid = l.pid)) log,
+                DCHY_FBXX fbxx,
+                Dchy_Htxx htxx,
+                Dchy_Ywxx ywxx
+            where  log.pid = ywxx.id
+                    and ywxx.pid = fbxx.id
+                    and htxx.pid = fbxx.id
+                    and fbxx.xmzt != '已撤销'
+                    and fbxx.xmzt != '已撤销'
+        <if test="searchStr != null and searchStr != ''">
+            and (fbxx.xmmc like '%${searchStr}%'
+            or htxx.chdwmc like '%${searchStr}%'
+            or fbxx.djbh like '%${searchStr}%'
+            or fbxx.WTDW like '%${searchStr}%'
+            or log.ywlx like '%${searchStr}%'
+            or log.dqhj like '%${searchStr}%'
+            or log.clsx like '%${searchStr}%')
+        </if>
+        order by log.jssj desc
+    </select>
+
+    <select id="findZzxxDealingList" parameterType="com.github.DchyService.entity.DchyLog" resultType="java.util.Map">
+        select
+        zzxx.ID                    as zzxxid,
+        zzxx.DID                   as zzxxdid,
+        zzxx.ZSBH                  as zzxxzsbh,
+        zzxx.ZSYXQ                 as zzxxzsyxq,
+        zzxx.ZZDJ                  as zzxxzzdj,
+        zzxx.FZBM                  as zzxxfzbm,
+        zzxx.ZZFJ                  as zzxxzzfj,
+        zzxx.STATE                 as zzxxstate,
+        zzxx.CJSJ                  as zzxxcjsj,
+        zzxx.DCHYYWFW              as zzxxdchyywfw,
+        zzxx.FJZD1                 as zzxxfjzd1,
+        zzxx.FJZD2                 as zzxxfjzd2,
+        zzxx.ZYFW                  as zzxxzyfw,
+        company.ID                 as companyid,
+        company.LICENSE_NO         as companylicenseno,
+        company.UNIT_NAME          as chdw,
+        company.UNIT_TYPE          as companyunittype,
+        company.UNIT_ADDRESS       as companyunitaddress,
+        company.BUSI_ARRANGE       as companybusiarrange,
+        company.LEGAL_NAME         as companylegalname,
+        company.LEGAL_ID_NUMBER    as companylegalidnumber,
+        company.LINK_PHONE         as companylinkphone,
+        company.REGISTERED_CAPITAL as companyregisteredcapital,
+        company.INDUSTRY_TYPE_NAME as companyindustrytypename,
+        company.OPERATING_PERIOD   as companyoperatingperiod,
+        company.BUSINESS_LICENSE   as companybusinesslicense,
+        company.COMPANY_STATE      as companystate,
+        company.CREATE_TIME        as companycreatetime,
+        company.MEMO1              as companymemo1,
+        company.MEMO2              as companymemo2,
+        log.pid                    as logpid,
+        log.id                     as logid,
+        log.FSRXM                  as logfsrxm,
+        log.FSRID                  as logfsrid,
+        log.FSSJ                   as logfssj,
+        log.JSRXM                  as logjsrxm,
+        log.JSRID                  as logjsrid,
+        log.JSSJ                   as jssj,
+        log.DQHJ                   as dqhj,
+        log.CLZT                   as logclzt,
+        log.SFHQ                   as logsfhq,
+        log.HQWC                   as loghqwc,
+        log.CJSJ                   as logcjsj,
+        log.SFYD                   as logsfyd,
+        log.ywlx                   as logywlx,
+        log.clsx                   as logclsx,
+        log.czsm                   as logczsm
+        from DCHY_ZZXX zzxx,
+            Dchy_Company company,
+        (select distinct (t.pid),
+            t.id,
+            t.FSRXM,
+            t.FSRID,
+            t.FSSJ,
+            t.JSRXM,
+            t.JSRID,
+            t.JSSJ,
+            t.DQHJ,
+            t.CLZT,
+            t.SFHQ,
+            t.HQWC,
+            t.CJSJ,
+            t.SFYD,
+            t.ywlx,
+            t.clsx,
+            t.czsm
+        from DCHY_LOG t
+        where t.jsrid = #{jsrid}
+        and t.jssj = (select max(l.jssj)
+        from DCHY_LOG l
+        where l.jsrid = #{jsrid}
+        and t.pid = l.pid)) log
+        where log.pid = zzxx.id
+            and zzxx.did = company.id
+        <if test="searchStr != null and searchStr != ''">
+            and (company.UNIT_NAME  like '%${searchStr}%'
+                or log.ywlx like '%${searchStr}%'
+                or log.dqhj like '%${searchStr}%'
+                or log.clsx like '%${searchStr}%')
+        </if>
+        order by log.jssj desc
+    </select>
+<!--    用pid获取最新的件-->
+    <select id="getLogByDqhyAndPid" resultMap="DchyLogMap">
+        select * from dchy_log where pid=#{pid,jdbcType=VARCHAR} and dqhj=#{dqhj,jdbcType=VARCHAR}
+    </select>
+    <!--    用pid获取最新日志-->
+    <select id="getLastLog" resultMap="DchyLogMap">
+        select b.* from (select a.*,rownum rn from dchy_log a
+        where a.pid=#{pid,jdbcType=VARCHAR} order by a.cjsj desc) b where rownum = 1
+    </select>
+    <select id="getJsrLastLog" resultMap="DchyLogMap">
+        select b.* from (select a.*,rownum rn from dchy_log a
+        where a.pid=#{pid,jdbcType=VARCHAR} and a.jsrid=#{jsrid,jdbcType=VARCHAR} order by a.cjsj desc) b where rownum = 1
+    </select>
+    <select id="getLogByPid" resultMap="DchyLogMap">
+        select b.* from (select a.*,rownum rn from dchy_log a
+        where a.pid=#{pid,jdbcType=VARCHAR} and (a.fsrid=#{userid} or a.jsrid=#{userid}) order by a.cjsj desc) b
+        where rownum = 1
+    </select>
+ </mapper>
