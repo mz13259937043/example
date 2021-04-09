@@ -1,15 +1,17 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import oneMenu from "@/compontents/menus/one";
-import twoMenu from "@/compontents/menus/two";
+import oneMenu from "@/components/menus/one";
+import twoMenu from "@/components/menus/two";
 
-import oneoneMenu from "@/compontents/menus/one-one";
-import onetwoMenu from "@/compontents/menus/one-two";
-import twooneMenu from "@/compontents/menus/two-one";
-import twotwoMenu from "@/compontents/menus/two-two";
+import oneoneMenu from "@/components/menus/one-one";
+import onetwoMenu from "@/components/menus/one-two";
+import twooneMenu from "@/components/menus/two-one";
+import twotwoMenu from "@/components/menus/two-two";
 
-import home from "@/compontents/resources/home";
+import end from "@/components/menus/end";
+
+import home from "@/components/resources/home";
 
 
 
@@ -335,27 +337,67 @@ VueRouter.prototype.push = function push(location) {
   路由就是项目的跳转的模块
   第一项是默认调转地址
   先是首部导航栏，再是一级菜单下的二级菜单
-
-
  */
 const routes = [
   { path: "/", redirect: "./home" },
   {
     path: "/home",
-    name: "home",
+    name: "主菜单",
     component: home,
+    children: [
+      {
+        path: 'one',
+        name: '一级菜单',
+        component: oneMenu,
+        children: [
+          {
+            path: 'one-one',
+            name: '1-1',
+            component: oneoneMenu,
+            children:[
+              {
+                path: 'end',
+                name: '尾部',
+                component: end
+              }
+            ]
+          },
+          {
+            path: 'one-two',
+            name: '1-2',
+            component: onetwoMenu
+          }
+        ]
+      },{
+        path: 'two',
+        name: '二级菜单',
+        component: twoMenu,
+        children: [
+          {
+            path: 'two-one',
+            name: '2-1',
+            component: twooneMenu,
+          },
+          {
+            path: 'two-two',
+            name: '2-2',
+            component: twotwoMenu,
+          }
+        ]
+      }
+    ]
   },{
     path: '/one',
     name: '一级菜单',
     component: oneMenu,
     children: [
       {
-        path: '/one-one',
+        path: 'one-one',
         name: '1-1',
         component: oneoneMenu,
       },
       {
-        path: '/one-two',
+        path: 'one-two',
         name: '1-2',
         component: onetwoMenu
       }
@@ -366,12 +408,12 @@ const routes = [
     component: twoMenu,
     children: [
       {
-        path: '/two-one',
+        path: 'two-one',
         name: '2-1',
         component: twooneMenu,
       },
       {
-        path: '/two-two',
+        path: 'two-two',
         name: '2-2',
         component: twotwoMenu,
       }

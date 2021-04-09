@@ -1,47 +1,35 @@
 <template>
-  <div class="bottom">
-    <div class="firstLine">
-      <span @click="togywm">关于我们</span>
-      <span>|</span>
-      <span @click="tolxwm">联系我们</span>
-    </div>
-    <div class="secondLine">
-      <div class="item">
-        <div>主办单位：西安市自然资源和规划局</div>
-        <div class="item_second">技术支持：西安市自然资源和规划信息中心</div>
+  <div class="">
+    <header>
+      <navbar></navbar>
+    </header>
+    <el-container style="display: flex;flex-direction: row">
+      <div id="leftArea">
+        <leftMenus />
       </div>
-      <div class="item">
-        <div>业务咨询电话：029-86787067</div>
-        <div class="item_second">陕公网备案： 61011202000231号</div>
+      <div id="rightArea">
+            <router-view />
       </div>
-      <div class="item">
-        <div>技术支持电话：029-84251161</div>
-        <div class="item_second">网站标识码：6101000068</div>
-      </div>
-      <div class="item">
-        <div>地址：西安市未央区凤城八路109号</div>
-        <div class="item_second">备案：陕ICP备19021816号</div>
-      </div>
-    </div>
-    <div class="threeLine">
-      <div class="item2">
-        <div>
-          建议使用1920*1080分辨率，推荐浏览器为Chrome、360浏览器<a
-            style="color: #0091ff"
-            href="https://www.google.cn/chrome/"
-            target="_blank"
-            >（点击下载）</a
-          >
-        </div>
-      </div>
-    </div>
+    </el-container>
+
   </div>
 </template>
 
 <script>
+import navbar from "@/components/resources/navbar";
+import leftMenus from "@/components/resources/leftMenus";
 export default {
+  components: {
+    navbar,
+    leftMenus,
+  },
   data() {
-    return {};
+    return {
+      res:[
+        {name:'菜单1',path:'/home/one'},
+        {name:'菜单2',path:'/home/two'},
+      ],
+    };
   },
   methods: {
     togywm() {
@@ -62,6 +50,10 @@ export default {
 </script>
 
 <style scoped>
+#leftArea{
+  width: 300px;
+}
+
 .bottom {
   height: 180px;
   background: #233042;

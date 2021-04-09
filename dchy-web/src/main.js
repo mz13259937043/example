@@ -97,7 +97,10 @@ import "@/assets/js/common.js";
 import http from "@/api/http.js";
 Vue.prototype.$http = http;
 Vue.config.productionTip = false;
-
+// 路由跳转
+Vue.prototype.$goRoute = function (index) {
+  this.$router.push(index)
+}
 new Vue({
   router,
   store,
